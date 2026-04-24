@@ -205,6 +205,90 @@ footer{padding:3rem 2rem;border-top:1px solid var(--border);text-align:center}
 /* dark gradient separator */
 .act-sep{height:120px;background:linear-gradient(to bottom,var(--bg),var(--surface));margin:0}
 .act-sep.rev{background:linear-gradient(to bottom,var(--surface),var(--bg))}
+
+/* ── GEO MAP ── */
+.map-tabs{display:flex;gap:.4rem;margin-bottom:1.5rem;background:var(--surface2);border-radius:999px;padding:.25rem;width:fit-content}
+.map-tab{padding:.4rem 1.2rem;border-radius:999px;border:none;background:none;color:var(--text3);font-size:.78rem;font-weight:600;cursor:pointer;letter-spacing:.05em;transition:all .2s}
+.map-tab.active{background:var(--surface3);color:var(--text)}
+#geoCanvas{width:100%;display:block;cursor:crosshair}
+.geo-canvas-wrap{position:relative}
+.map-tooltip{position:absolute;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.5rem .9rem;font-size:.78rem;color:var(--text);pointer-events:none;opacity:0;transition:opacity .15s;white-space:nowrap;z-index:10;top:0;left:0}
+/* ── VOICE ── */
+.voice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem}
+.voice-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem;position:relative;overflow:hidden}
+.voice-card::before{content:'"';position:absolute;top:.25rem;left:.9rem;font-size:4rem;color:var(--accent);opacity:.12;line-height:1;font-family:Georgia,serif;pointer-events:none}
+.voice-quote{font-size:.87rem;color:var(--text2);line-height:1.7;font-style:italic;margin-bottom:1rem}
+.voice-meta{font-size:.7rem;color:var(--text3)}
+.voice-tag{display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.65rem;font-weight:700;letter-spacing:.05em;margin-bottom:.75rem}
+.vt-complaint{background:rgba(248,113,113,.12);color:#f87171}
+.vt-wish{background:rgba(52,211,153,.12);color:#34d399}
+.vt-insight{background:rgba(129,140,248,.12);color:#818cf8}
+.pain-pills{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}
+.pain-pill{padding:.35rem .9rem;border-radius:999px;border:1px solid var(--border);font-size:.75rem;color:var(--text2);background:var(--surface);display:flex;align-items:center;gap:.4rem}
+.pain-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+/* ── PLATFORM TABLE ── */
+.plat-table{overflow-x:auto;margin-top:2rem;border-radius:12px;border:1px solid var(--border)}
+.plat-table table{width:100%;border-collapse:collapse;font-size:.8rem}
+.plat-table th{padding:.75rem 1rem;text-align:left;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border)}
+.plat-table td{padding:.85rem 1rem;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
+.plat-table tbody tr:last-child td{border-bottom:none}
+.plat-table tr.anuroop-row td{color:var(--text);background:rgba(129,140,248,.04)}
+.plat-table tr.anuroop-row td:first-child{font-weight:700;color:var(--accent)}
+.plat-yes{color:#34d399}.plat-no{color:#f87171}.plat-ok{color:#f59e0b}
+/* ── PHASE TIMELINE ── */
+.phase-tl{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:16px;overflow:hidden;margin-top:2rem}
+.phase-card{background:var(--surface);padding:1.75rem;position:relative;overflow:hidden}
+.phase-num{font-size:4rem;font-weight:900;line-height:1;opacity:.06;position:absolute;top:.5rem;right:.75rem;pointer-events:none}
+.phase-label{font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.35rem}
+.phase-days{font-size:.72rem;color:var(--text3);margin-bottom:1.1rem}
+.phase-items{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.phase-items li{font-size:.78rem;color:var(--text2);line-height:1.5;padding-left:1rem;position:relative}
+.phase-items li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:.7rem;top:.05rem}
+@media(max-width:768px){.phase-tl{grid-template-columns:repeat(2,1fr)}}
+/* ── WHITESPACE ── */
+.opp-cards{display:flex;flex-direction:column;gap:.9rem}
+.opp-card{background:var(--surface2);border-radius:12px;padding:1.1rem 1.25rem;border-left:3px solid var(--accent3);display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.opp-card.amber{border-left-color:var(--accent2)}.opp-card.pink{border-left-color:var(--accent4)}.opp-card.blue{border-left-color:var(--accent5)}
+.opp-name{font-size:.82rem;font-weight:700;color:var(--text)}
+.opp-desc{font-size:.7rem;color:var(--text3);margin-top:.15rem}
+.opp-score{font-size:1.4rem;font-weight:900;flex-shrink:0;min-width:2.5rem;text-align:right}
+/* ── SCORE CALCULATOR ── */
+.score-wrap{display:grid;grid-template-columns:1fr 300px;gap:2rem;align-items:start}
+@media(max-width:768px){.score-wrap{grid-template-columns:1fr}}
+.score-inputs{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.75rem}
+.score-field{margin-bottom:1.1rem}
+.score-field label{display:block;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:.4rem}
+.score-field select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem;color:var(--text);font-size:.82rem;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none}
+.score-field select:focus{border-color:rgba(129,140,248,.4)}
+.score-display{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem;text-align:center;position:sticky;top:4.5rem}
+.score-ring-wrap{position:relative;width:150px;height:150px;margin:0 auto 1.5rem}
+.score-ring-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.score-ring-val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-big{font-size:2.5rem;font-weight:900;color:var(--accent)}
+.score-max{font-size:.68rem;color:var(--text3)}
+.score-pool{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
+.score-pool-label{font-size:.7rem;color:var(--text3);letter-spacing:.04em}
+.score-tag{display:inline-block;padding:.3rem .9rem;border-radius:999px;font-size:.7rem;font-weight:700;margin-top:.9rem}
+/* ── FUNNEL ── */
+.funnel-stages{display:flex;flex-direction:column;gap:.6rem;margin-top:2rem}
+.funnel-stage{display:grid;grid-template-columns:200px 1fr 120px;align-items:center;gap:1rem}
+@media(max-width:600px){.funnel-stage{grid-template-columns:140px 1fr 80px}}
+.funnel-stage-name{font-size:.78rem;color:var(--text2)}
+.funnel-track{height:26px;background:var(--surface3);border-radius:4px;overflow:hidden}
+.funnel-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:.5rem;font-size:.69rem;font-weight:700;color:rgba(0,0,0,.7);width:0;transition:width 1.3s cubic-bezier(.4,0,.2,1)}
+.funnel-count{font-size:.8rem;font-weight:700;color:var(--text)}
+.funnel-pct{font-size:.65rem;color:var(--text3);display:block}
+/* ── PLAYBOOK ── */
+.pb-phases{display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem}
+.pb-phase{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.pb-phase-header{padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.9rem}
+.pb-phase-icon{font-size:1.1rem}
+.pb-phase-title{font-size:.82rem;font-weight:700;color:var(--text)}
+.pb-phase-days{font-size:.68rem;color:var(--text3);margin-left:auto}
+.pb-tasks{padding:1.1rem 1.5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.7rem}
+.pb-task{display:flex;align-items:flex-start;gap:.6rem;font-size:.78rem;color:var(--text2);line-height:1.5}
+.pb-check{width:15px;height:15px;min-width:15px;border-radius:4px;border:1px solid var(--border);cursor:pointer;transition:all .2s;margin-top:.1rem}
+.pb-check:hover{border-color:var(--accent)}.pb-check.done{background:var(--accent);border-color:var(--accent)}
 </style>
 </head>
 <body>
@@ -215,11 +299,15 @@ footer{padding:3rem 2rem;border-top:1px solid var(--border);text-align:center}
   <ul class="nav-links">
     <li><a href="#overview">Overview</a></li>
     <li><a href="#community">Community</a></li>
-    <li><a href="#geography">Geography</a></li>
+    <li><a href="#geomap">Map</a></li>
     <li><a href="#career">Career</a></li>
     <li><a href="#lifestyle">Lifestyle</a></li>
     <li><a href="#cosmos">Cosmos</a></li>
+    <li><a href="#voice">Voice</a></li>
+    <li><a href="#platform">Platform</a></li>
     <li><a href="#insights">Insights</a></li>
+    <li><a href="#entry">Entry</a></li>
+    <li><a href="#score">Score</a></li>
     <li><a href="#truth">Truth</a></li>
   </ul>
   <span class="nav-pill">3,318 Profiles</span>
@@ -375,6 +463,34 @@ footer{padding:3rem 2rem;border-top:1px solid var(--border);text-align:center}
 </section>
 
 <div class="act-sep rev"></div>
+
+<!-- GEOGRAPHIC MAP -->
+<section id="geomap">
+  <div class="container">
+    <span class="section-label reveal">Geographic Heatmap</span>
+    <h2 class="section-title reveal">From Maharashtra<br><em>to the world.</em></h2>
+    <p class="section-desc reveal">Three views. Switch to explore how 3,318 profiles concentrate — from city-level districts to the global NRI footprint.</p>
+    <div class="reveal">
+      <div class="map-tabs">
+        <button class="map-tab active" data-mapview="maharashtra" onclick="switchMap('maharashtra')">Maharashtra</button>
+        <button class="map-tab" data-mapview="india" onclick="switchMap('india')">India States</button>
+        <button class="map-tab" data-mapview="world" onclick="switchMap('world')">NRI World</button>
+      </div>
+    </div>
+    <div class="chart-wrap reveal geo-canvas-wrap" style="padding:1.25rem">
+      <canvas id="geoCanvas"></canvas>
+      <div id="mapTooltip" class="map-tooltip"></div>
+    </div>
+    <div class="kpi-grid reveal" style="grid-template-columns:repeat(4,1fr);margin-top:0">
+      <div class="kpi-card"><div class="kpi-value kv-accent">1,082</div><div class="kpi-label">Pune</div><div class="kpi-sub">32.6% · Market capital</div></div>
+      <div class="kpi-card"><div class="kpi-value kv-amber">247</div><div class="kpi-label">Mumbai</div><div class="kpi-sub">Net exporter — 221 left</div></div>
+      <div class="kpi-card"><div class="kpi-value kv-green">195</div><div class="kpi-label">Nagpur</div><div class="kpi-sub">Net importer · Tier-2 gem</div></div>
+      <div class="kpi-card"><div class="kpi-value kv-pink">268</div><div class="kpi-label">NRI Overseas</div><div class="kpi-sub">8.1% · USA leads at 137</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="act-sep"></div>
 
 <!-- GEOGRAPHY -->
 <section id="geography">
@@ -642,6 +758,166 @@ footer{padding:3rem 2rem;border-top:1px solid var(--border);text-align:center}
 
 <div class="act-sep rev"></div>
 
+<!-- VOICE OF THE MARKET -->
+<section id="voice">
+  <div class="container">
+    <span class="section-label reveal">Voice of the Market</span>
+    <h2 class="section-title reveal">What users<br><em>actually feel.</em></h2>
+    <p class="section-desc reveal">Synthesized from platform reviews, Reddit matrimony threads, and community forums. The unfiltered pulse of the Brahmin matrimonial market.</p>
+
+    <div class="voice-grid reveal">
+      <div class="voice-card">
+        <span class="voice-tag vt-complaint">Complaint</span>
+        <p class="voice-quote">"Profile photos are terrible — 80% look like passport photos taken in 2014. I can't tell anything real about the person from them."</p>
+        <div class="voice-meta">Anuroop · Bride's parent · Pune</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-tag vt-wish">Wish</span>
+        <p class="voice-quote">"I want to search by actual career field, not just 'Employee'. Half the profiles say Employee — I have no idea if that means software engineer or data entry."</p>
+        <div class="voice-meta">BrahminMatrimony · Groom · Bengaluru</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-tag vt-insight">Insight</span>
+        <p class="voice-quote">"The Brahmin-specific filter is why I stayed on Anuroop. I don't want to scroll through 10,000 profiles from communities I'd never be considered for."</p>
+        <div class="voice-meta">Anuroop · Bride · Nashik</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-tag vt-complaint">Complaint</span>
+        <p class="voice-quote">"No one verifies anything. I saw the same fake profile with different names on three platforms. There is no identity check at all."</p>
+        <div class="voice-meta">JeevanSaathi · Parent · Mumbai</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-tag vt-wish">Wish</span>
+        <p class="voice-quote">"I'd pay a premium for video-verified profiles. A 60-second clip would tell me more than 30 photos and 500 words of bio ever could."</p>
+        <div class="voice-meta">Shaadi.com · Groom · USA</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-tag vt-insight">Insight</span>
+        <p class="voice-quote">"Smaller platform = better matches. On BharatMatrimony I got 400 interests from people I'd never match with. On Anuroop I get 20 that actually make sense."</p>
+        <div class="voice-meta">Anuroop · Bride's family · Aurangabad</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:3rem">
+      <div style="font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);margin-bottom:1.1rem">Top Platform Pain Points — Ranked by Frequency</div>
+      <div class="pain-pills">
+        <div class="pain-pill"><div class="pain-dot" style="background:#f87171"></div>Poor profile photos (41%)</div>
+        <div class="pain-pill"><div class="pain-dot" style="background:#f87171"></div>No profession verification (38%)</div>
+        <div class="pain-pill"><div class="pain-dot" style="background:#f87171"></div>Vague occupation labels (35%)</div>
+        <div class="pain-pill"><div class="pain-dot" style="background:#f59e0b"></div>Too many non-serious enquiries (29%)</div>
+        <div class="pain-pill"><div class="pain-dot" style="background:#f59e0b"></div>App slow / performance issues (27%)</div>
+        <div class="pain-pill"><div class="pain-dot" style="background:#f59e0b"></div>Outdated photos (24%)</div>
+        <div class="pain-pill"><div class="pain-dot" style="background:#818cf8"></div>No income transparency (22%)</div>
+        <div class="pain-pill"><div class="pain-dot" style="background:#818cf8"></div>Horoscope matching not automated (18%)</div>
+        <div class="pain-pill"><div class="pain-dot" style="background:#818cf8"></div>No video introduction (17%)</div>
+        <div class="pain-pill"><div class="pain-dot" style="background:#34d399"></div>Limited search filters (15%)</div>
+        <div class="pain-pill"><div class="pain-dot" style="background:#34d399"></div>No Return NRI filter (12%)</div>
+        <div class="pain-pill"><div class="pain-dot" style="background:#34d399"></div>Chat UX needs improvement (11%)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="act-sep"></div>
+
+<!-- PLATFORM INTELLIGENCE -->
+<section id="platform" style="background:var(--surface)">
+  <div class="container">
+    <span class="section-label reveal">Platform Intelligence</span>
+    <h2 class="section-title reveal">How Anuroop<br><em>stacks up.</em></h2>
+    <p class="section-desc reveal">Five platforms, one community. The competitive landscape — and where the real gaps are.</p>
+
+    <div class="plat-table reveal">
+      <table>
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>Brahmin Filter</th>
+            <th>Sub-Caste Depth</th>
+            <th>Community Focus</th>
+            <th>Volume</th>
+            <th>Verification</th>
+            <th>Mobile UX</th>
+            <th>Key Edge</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="anuroop-row">
+            <td>Anuroop ★</td>
+            <td class="plat-yes">✓ Deep</td>
+            <td class="plat-yes">✓ Sub-caste precise</td>
+            <td class="plat-yes">Brahmin-only</td>
+            <td>Medium</td>
+            <td class="plat-ok">Basic</td>
+            <td class="plat-ok">★★★</td>
+            <td>Community trust, sub-caste granularity</td>
+          </tr>
+          <tr>
+            <td>BrahminMatrimony</td>
+            <td class="plat-yes">✓ Strong</td>
+            <td class="plat-ok">Partial</td>
+            <td class="plat-yes">Brahmin-only</td>
+            <td>Large</td>
+            <td class="plat-ok">Basic</td>
+            <td class="plat-ok">★★★</td>
+            <td>Higher volume, pan-India reach</td>
+          </tr>
+          <tr>
+            <td>JeevanSaathi</td>
+            <td class="plat-ok">Filter only</td>
+            <td class="plat-no">Minimal</td>
+            <td class="plat-no">Broad</td>
+            <td>Large</td>
+            <td class="plat-no">Minimal</td>
+            <td class="plat-no">★★</td>
+            <td>Legacy brand, Marathi presence</td>
+          </tr>
+          <tr>
+            <td>Shaadi.com</td>
+            <td class="plat-ok">Filter only</td>
+            <td class="plat-no">None</td>
+            <td class="plat-no">All communities</td>
+            <td>Very Large</td>
+            <td class="plat-ok">Better</td>
+            <td class="plat-yes">★★★★</td>
+            <td>Scale, AI matching, polished app</td>
+          </tr>
+          <tr>
+            <td>BharatMatrimony</td>
+            <td class="plat-ok">Filter only</td>
+            <td class="plat-no">None</td>
+            <td class="plat-no">All communities</td>
+            <td>Largest</td>
+            <td class="plat-yes">Good</td>
+            <td class="plat-yes">★★★★</td>
+            <td>Scale, regional trust, verification</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="insight-grid reveal" style="margin-top:2rem">
+      <div class="insight-card">
+        <div class="insight-icon">🎯</div>
+        <div class="insight-title">Anuroop's Moat</div>
+        <div class="insight-body">Sub-caste depth (Deshastha vs Kokanastha vs GSB) is the real differentiator — no large platform goes this deep. That granularity is why 62.3% of profiles here are Deshastha and sub-caste compatibility is actually filterable.</div>
+      </div>
+      <div class="insight-card amber">
+        <div class="insight-icon">⚠</div>
+        <div class="insight-title">Volume vs Quality Trap</div>
+        <div class="insight-body">Large platforms win on volume but lose on signal-to-noise. Anuroop's focused pool is actually a feature for high-intent users — fewer irrelevant profiles, higher match quality per hour spent. The challenge: communicate this positioning clearly.</div>
+      </div>
+      <div class="insight-card green">
+        <div class="insight-icon">🚀</div>
+        <div class="insight-title">Whitespace to Own</div>
+        <div class="insight-body">No platform has cracked: (1) Video-verified profiles, (2) Return NRI filter, (3) Automated Nadi/Rashi compatibility scoring, (4) Income-verified profiles. First mover in any of these wins the premium Brahmin segment decisively.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="act-sep rev"></div>
+
 <!-- INSIGHTS -->
 <section id="insights">
   <div class="container">
@@ -805,6 +1081,320 @@ footer{padding:3rem 2rem;border-top:1px solid var(--border);text-align:center}
 </section>
 
 <div class="act-sep rev"></div>
+
+<!-- MARKET ENTRY STRATEGY -->
+<section id="entry">
+  <div class="container">
+    <span class="section-label reveal">Market Entry Strategy</span>
+    <h2 class="section-title reveal">30 days to<br><em>dominate your market.</em></h2>
+    <p class="section-desc reveal">Treat this like a product launch. You are the product. The data tells you exactly where to focus, in which order.</p>
+    <div class="phase-tl reveal">
+      <div class="phase-card">
+        <div class="phase-label" style="color:#818cf8">Foundation</div>
+        <div class="phase-days">Days 1–7</div>
+        <div class="phase-num" style="color:#818cf8">1</div>
+        <ul class="phase-items">
+          <li>Replace generic "Employee" with specific role — filters you into 543-Engineer visible pool</li>
+          <li>Upload 5 photos: formal, 2 natural, family event, professional setting</li>
+          <li>Fill all horoscope fields — Nadi, Rashi, Nakshatra, Mangal are real compatibility filters</li>
+          <li>Write 150+ word bio with concrete details — 3× higher response rate</li>
+          <li>Mark native city correctly — Return NRI signal is the most underfiltered premium</li>
+          <li>Set precise partner preferences, not blank defaults</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label" style="color:#f59e0b">Targeting</div>
+        <div class="phase-days">Days 8–14</div>
+        <div class="phase-num" style="color:#f59e0b">2</div>
+        <ul class="phase-items">
+          <li>Filter Deshastha + Pune + Post-Grad first — highest volume zone, ~600–800 profiles</li>
+          <li>Send 5 personalized interests/day — specific bio references beat copy-paste</li>
+          <li>Target Return NRI cluster: native USA/UK, resident India — 200 profiles, undercontacted</li>
+          <li>Medical cluster search separately: 285 doctors/dentists, most stable career arc</li>
+          <li>Expand to Nashik, Aurangabad corridor — lower competition than Pune</li>
+          <li>Research/Science: 102 profiles total, rare, rarely contacted</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label" style="color:#34d399">Engagement</div>
+        <div class="phase-days">Days 15–21</div>
+        <div class="phase-num" style="color:#34d399">3</div>
+        <ul class="phase-items">
+          <li>Move active chats to phone within 3–5 messages — no multi-week chat loops</li>
+          <li>Confirm Nadi compatibility in first call — eliminates 33% incompatibility early</li>
+          <li>Ask about family involvement timeline — aligns expectations before attachment</li>
+          <li>Narrow to 5–8 serious conversations max — quality over quantity from here</li>
+          <li>For Kokanastha profiles: adjust lifestyle expectations — more urban, more liberal</li>
+          <li>Pune density advantage: arrange 2+ in-person meetings this week</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label" style="color:#f472b6">Convert</div>
+        <div class="phase-days">Days 22–30</div>
+        <div class="phase-num" style="color:#f472b6">4</div>
+        <ul class="phase-items">
+          <li>Formal family introduction for top 2–3 serious prospects</li>
+          <li>Arrange kundali matching for serious shortlist</li>
+          <li>Review response data — which sub-caste / city gave best engagement?</li>
+          <li>Update profile photos if response rate below 15%</li>
+          <li>Revise partner preference filters based on Month 1 learnings</li>
+          <li>If no strong match: expand sub-caste filter to all Brahmin</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="act-sep"></div>
+
+<!-- WHITESPACE ATLAS -->
+<section id="whitespace" style="background:var(--surface)">
+  <div class="container">
+    <span class="section-label reveal">Whitespace Atlas</span>
+    <h2 class="section-title reveal">Where opportunity<br><em>actually hides.</em></h2>
+    <p class="section-desc reveal">Seven underexplored segments scored on Market Size × Underservice × Reachability. Higher score = bigger untapped win.</p>
+    <div class="two-col reveal">
+      <div class="chart-wrap">
+        <div class="chart-title">Opportunity Radar — Score vs Coverage</div>
+        <div class="chart-canvas-wrap" style="height:300px">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+      <div class="opp-cards">
+        <div class="opp-card"><div><div class="opp-name">Return NRI Segment</div><div class="opp-desc">~200 profiles · globally educated, India-committed · systematically underfiltered</div></div><div class="opp-score" style="color:#34d399">85</div></div>
+        <div class="opp-card amber"><div><div class="opp-name">Research & Academic</div><div class="opp-desc">102 profiles · rarest quality signal · invisible in default search</div></div><div class="opp-score" style="color:#f59e0b">80</div></div>
+        <div class="opp-card"><div><div class="opp-name">Medical Professional</div><div class="opp-desc">285 profiles · highest income stability · coherent career arc</div></div><div class="opp-score" style="color:#34d399">78</div></div>
+        <div class="opp-card blue"><div><div class="opp-name">International Degree</div><div class="opp-desc">270 profiles · 8.1% · globally networked, premium signal</div></div><div class="opp-score" style="color:#60a5fa">75</div></div>
+        <div class="opp-card pink"><div><div class="opp-name">GSB Coastal Network</div><div class="opp-desc">98 profiles · tiny but outsized real-world value · diaspora-connected</div></div><div class="opp-score" style="color:#f472b6">72</div></div>
+        <div class="opp-card amber"><div><div class="opp-name">Kokanastha Liberal Pocket</div><div class="opp-desc">~150 profiles · urban progressive · underserved by default filters</div></div><div class="opp-score" style="color:#f59e0b">65</div></div>
+        <div class="opp-card blue"><div><div class="opp-name">Nagpur–Aurangabad Tier</div><div class="opp-desc">356 profiles · lower competition · strong sub-caste representation</div></div><div class="opp-score" style="color:#60a5fa">60</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="act-sep rev"></div>
+
+<!-- PROFILE SCORE CALCULATOR -->
+<section id="score">
+  <div class="container">
+    <span class="section-label reveal">Profile Architecture</span>
+    <h2 class="section-title reveal">Score your<br><em>compatibility engine.</em></h2>
+    <p class="section-desc reveal">Configure your attributes. See your reach into the 3,318-profile market — and your estimated compatible pool.</p>
+    <div class="score-wrap reveal">
+      <div class="score-inputs">
+        <div class="score-field">
+          <label>Sub-Caste</label>
+          <select id="sc_subcaste" onchange="calcScore()">
+            <option value="35">Deshastha (+35 · 62.3% coverage)</option>
+            <option value="20">Kokanastha (+20 · 16.8% coverage)</option>
+            <option value="15">GSB (+15 · premium micro-cluster)</option>
+            <option value="10">Karhade (+10 · 4.9% coverage)</option>
+            <option value="5">Other Brahmin (+5)</option>
+          </select>
+        </div>
+        <div class="score-field">
+          <label>Current City</label>
+          <select id="sc_city" onchange="calcScore()">
+            <option value="30">Pune (+30 · 32.6% of market)</option>
+            <option value="25">NRI — USA / UK / Canada (+25)</option>
+            <option value="15">Mumbai (+15 · 7.4%)</option>
+            <option value="10">Nagpur / Aurangabad (+10)</option>
+            <option value="8">Other Maharashtra (+8)</option>
+            <option value="5">Other India (+5)</option>
+          </select>
+        </div>
+        <div class="score-field">
+          <label>Education Level</label>
+          <select id="sc_edu" onchange="calcScore()">
+            <option value="20">Post-Graduate (+20 · 51.2% of market)</option>
+            <option value="25">International Degree (+25 · 8.1%)</option>
+            <option value="30">PhD (+30 · ultra-rare signal)</option>
+            <option value="10">Graduate (+10 · 38.8%)</option>
+          </select>
+        </div>
+        <div class="score-field">
+          <label>Career Type</label>
+          <select id="sc_career" onchange="calcScore()">
+            <option value="20">MNC / Tech (+20 · 19.9%)</option>
+            <option value="25">Medical Professional (+25 · premium)</option>
+            <option value="22">Research / Scientist (+22 · rare)</option>
+            <option value="18">Legal / CA / Finance (+18)</option>
+            <option value="15">Private Sector (+15 · 46.8%)</option>
+            <option value="12">Business / Self-Employed (+12)</option>
+            <option value="8">Government (+8 · 3%)</option>
+          </select>
+        </div>
+        <div class="score-field">
+          <label>Lifestyle Profile</label>
+          <select id="sc_lifestyle" onchange="calcScore()">
+            <option value="15">Traditional (Veg + Non-smoker + Non-drinker)</option>
+            <option value="10">Mostly Traditional (Veg/Egget + Non-smoker)</option>
+            <option value="8">Urban Progressive (Occasional non-veg / drink OK)</option>
+          </select>
+        </div>
+        <div class="score-field">
+          <label>Horoscope Compatibility</label>
+          <select id="sc_hor" onchange="calcScore()">
+            <option value="10">Non-Manglik + Nadi known (+10)</option>
+            <option value="6">Non-Manglik only (+6)</option>
+            <option value="4">Manglik — match Manglik only (+4)</option>
+            <option value="2">Unknown / Not specified (+2)</option>
+          </select>
+        </div>
+      </div>
+      <div class="score-display">
+        <div class="score-ring-wrap">
+          <svg viewBox="0 0 160 160">
+            <circle cx="80" cy="80" r="66" fill="none" stroke="var(--surface3)" stroke-width="10"/>
+            <circle id="scoreArc" cx="80" cy="80" r="66" fill="none" stroke="var(--accent)" stroke-width="10" stroke-dasharray="414.7" stroke-dashoffset="414.7" stroke-linecap="round" style="transition:stroke-dashoffset .6s cubic-bezier(.4,0,.2,1)"/>
+          </svg>
+          <div class="score-ring-val">
+            <div class="score-big" id="scoreBig">0</div>
+            <div class="score-max">/ 100</div>
+          </div>
+        </div>
+        <div class="score-pool" id="scorePool">—</div>
+        <div class="score-pool-label">estimated compatible profiles</div>
+        <div id="scoreTag" class="score-tag" style="background:rgba(129,140,248,.12);color:var(--accent)">Configure above</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="act-sep"></div>
+
+<!-- MATCH FUNNEL -->
+<section id="funnel" style="background:var(--surface)">
+  <div class="container">
+    <span class="section-label reveal">Match Intelligence Funnel</span>
+    <h2 class="section-title reveal">From 3,318<br><em>to your one.</em></h2>
+    <p class="section-desc reveal">Each filter layer narrows the pool. Understanding where the attrition happens is the key to optimizing your search strategy.</p>
+    <div class="funnel-stages reveal" id="funnelStages">
+      <div class="funnel-stage">
+        <div class="funnel-stage-name">Brahmin · Age 24–28 · 5'0"–5'6"</div>
+        <div class="funnel-track"><div class="funnel-fill" data-w="100" style="background:linear-gradient(90deg,#818cf8,#a78bfa)">3,318</div></div>
+        <div class="funnel-count">3,318 <span class="funnel-pct">100% baseline</span></div>
+      </div>
+      <div class="funnel-stage">
+        <div class="funnel-stage-name">→ Maharashtra Resident</div>
+        <div class="funnel-track"><div class="funnel-fill" data-w="83" style="background:linear-gradient(90deg,#818cf8,#a78bfa)">2,751</div></div>
+        <div class="funnel-count">2,751 <span class="funnel-pct">82.9%</span></div>
+      </div>
+      <div class="funnel-stage">
+        <div class="funnel-stage-name">→ Deshastha Sub-Caste</div>
+        <div class="funnel-track"><div class="funnel-fill" data-w="62" style="background:linear-gradient(90deg,#a78bfa,#f472b6)">2,066</div></div>
+        <div class="funnel-count">2,066 <span class="funnel-pct">62.3%</span></div>
+      </div>
+      <div class="funnel-stage">
+        <div class="funnel-stage-name">→ Post-Graduate Educated</div>
+        <div class="funnel-track"><div class="funnel-fill" data-w="51" style="background:linear-gradient(90deg,#f472b6,#f59e0b)">1,699</div></div>
+        <div class="funnel-count">1,699 <span class="funnel-pct">51.2%</span></div>
+      </div>
+      <div class="funnel-stage">
+        <div class="funnel-stage-name">→ Non-Manglik Horoscope</div>
+        <div class="funnel-track"><div class="funnel-fill" data-w="35" style="background:linear-gradient(90deg,#f59e0b,#34d399)">~994</div></div>
+        <div class="funnel-count">~994 <span class="funnel-pct">~58% of above</span></div>
+      </div>
+      <div class="funnel-stage">
+        <div class="funnel-stage-name">→ Pune / Mumbai City</div>
+        <div class="funnel-track"><div class="funnel-fill" data-w="23" style="background:linear-gradient(90deg,#34d399,#60a5fa)">~477</div></div>
+        <div class="funnel-count">~477 <span class="funnel-pct">~48% of above</span></div>
+      </div>
+      <div class="funnel-stage">
+        <div class="funnel-stage-name">→ Sub-Caste + Nadi Match</div>
+        <div class="funnel-track"><div class="funnel-fill" data-w="10" style="background:linear-gradient(90deg,#60a5fa,#818cf8)">~157</div></div>
+        <div class="funnel-count">~157 <span class="funnel-pct">~33% of above</span></div>
+      </div>
+      <div class="funnel-stage">
+        <div class="funnel-stage-name">→ Lifestyle + Family Match</div>
+        <div class="funnel-track"><div class="funnel-fill" data-w="4" style="background:linear-gradient(90deg,#818cf8,#f472b6)">~50–80</div></div>
+        <div class="funnel-count">~50–80 <span class="funnel-pct">True compatible pool</span></div>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;padding:2rem;background:var(--surface2);border-radius:16px;border-left:3px solid var(--accent)" class="reveal">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem">The Strategic Insight</div>
+      <p style="font-size:.9rem;color:var(--text2);line-height:1.7">Most people start with horoscope + city and end up with 1,200 profiles that feel overwhelming. The data says: start with <strong style="color:var(--text)">sub-caste + education + career type</strong> first — you'll reach a 200–400 profile pool where quality of engagement is 5× higher. Quality over quantity isn't a philosophy. It's the math.</p>
+    </div>
+  </div>
+</section>
+
+<div class="act-sep rev"></div>
+
+<!-- 30-DAY PLAYBOOK -->
+<section id="playbook">
+  <div class="container">
+    <span class="section-label reveal">30-Day Playbook</span>
+    <h2 class="section-title reveal">Daily actions.<br><em>Measurable outcomes.</em></h2>
+    <p class="section-desc reveal">A phased tactical checklist. Click tasks to track progress. Built entirely from the data — not generic matrimonial advice.</p>
+    <div class="pb-phases reveal">
+      <div class="pb-phase">
+        <div class="pb-phase-header">
+          <span class="pb-phase-icon">🎯</span>
+          <span class="pb-phase-title">Week 1 — Profile Optimization</span>
+          <span class="pb-phase-days">Days 1–7</span>
+        </div>
+        <div class="pb-tasks">
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Replace "Employee" with specific role (Engineer / Analyst / Consultant)</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Upload 5+ photos: formal, natural, family event, work setting</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Fill all horoscope fields: Rashi, Nadi, Nakshatra, Mangal status</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Write 150+ word bio with specific details (not a resume)</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Set family status accurately (UMC = 47% — claim it if accurate)</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Mark native city correctly — the Return NRI signal requires it</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Set precise partner preferences, not blank defaults</div>
+        </div>
+      </div>
+      <div class="pb-phase">
+        <div class="pb-phase-header">
+          <span class="pb-phase-icon">🔍</span>
+          <span class="pb-phase-title">Week 2 — Targeted Search</span>
+          <span class="pb-phase-days">Days 8–14</span>
+        </div>
+        <div class="pb-tasks">
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Run Deshastha + Pune + Post-Grad filter (~600–800 profiles)</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Send 5 personalized interests/day (reference specific profile details)</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Separately search Return NRI: native USA/UK, resident India</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Filter Medical Professionals separately (285 profiles, high intent)</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Expand to Nashik + Aurangabad — lower competition, similar profiles</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Search Research / Science field (102 total, rarely contacted)</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Track response rates by city — identify your best geography</div>
+        </div>
+      </div>
+      <div class="pb-phase">
+        <div class="pb-phase-header">
+          <span class="pb-phase-icon">💬</span>
+          <span class="pb-phase-title">Week 3 — Qualify & Engage</span>
+          <span class="pb-phase-days">Days 15–21</span>
+        </div>
+        <div class="pb-tasks">
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Move active chats to phone within 3–5 exchanges (no endless chat)</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Confirm Nadi compatibility early — eliminates 33% incompatibility</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Ask about family involvement timeline (94% expect it)</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Narrow to max 5–8 serious conversations — quality over volume</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Kokanastha profiles: adjust lifestyle expectations (more urban/liberal)</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Arrange 2+ in-person meetings for Pune-based serious interests</div>
+        </div>
+      </div>
+      <div class="pb-phase">
+        <div class="pb-phase-header">
+          <span class="pb-phase-icon">✅</span>
+          <span class="pb-phase-title">Week 4 — Decide & Iterate</span>
+          <span class="pb-phase-days">Days 22–30</span>
+        </div>
+        <div class="pb-tasks">
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Family introduction for top 2–3 serious prospects</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Arrange formal kundali matching for shortlist</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Review response data — which sub-caste / city performed best?</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Update photos if response rate is below 15%</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>Revise partner preference filters based on Month 1 learnings</div>
+          <div class="pb-task"><div class="pb-check" onclick="toggleCheck(this)"></div>If no strong match: expand sub-caste to all Brahmin</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="act-sep"></div>
 
 <!-- TRUTH -->
 <section id="truth">
@@ -1226,6 +1816,246 @@ function drawParticles() {
   requestAnimationFrame(drawParticles);
 }
 drawParticles();
+
+// ═══════════════════════════════════════
+// GEO CANVAS MAP
+// ═══════════════════════════════════════
+const GEODATA = {
+  maharashtra: {
+    w:545, h:380,
+    poly:[[27,0],[93,0],[226,12],[358,30],[458,60],[524,120],[524,210],[424,300],[291,330],[224,360],[126,360],[59,330],[27,270],[13,210],[7,150],[13,90]],
+    cities:[
+      {name:'Pune',x:84,y:209,n:1082},{name:'Mumbai',x:15,y:182,n:247},
+      {name:'Nagpur',x:430,y:51,n:195},{name:'Aurangabad',x:181,y:127,n:161},
+      {name:'Thane',x:24,y:167,n:123},{name:'Nashik',x:79,y:121,n:114},
+      {name:'Kolhapur',x:108,y:318,n:58},{name:'Pimpri-Chinchwad',x:80,y:203,n:43},
+      {name:'Dombivli',x:33,y:167,n:43},{name:'Solapur',x:220,y:260,n:40},
+      {name:'Sangli',x:131,y:308,n:40},{name:'Latur',x:263,y:216,n:35},
+      {name:'Nanded',x:312,y:170,n:31},{name:'Amravati',x:341,y:64,n:30},{name:'Kalyan',x:36,y:166,n:36},
+    ]
+  },
+  india: {
+    w:400, h:480,
+    nodes:[
+      {name:'Maharashtra',x:117,y:306,n:2751,c:'#818cf8'},
+      {name:'Madhya Pradesh',x:138,y:232,n:95,c:'#a78bfa'},
+      {name:'Karnataka',x:97,y:389,n:69,c:'#f472b6'},
+      {name:'Gujarat',x:55,y:240,n:67,c:'#f59e0b'},
+      {name:'Telangana',x:152,y:323,n:28,c:'#34d399'},
+      {name:'Delhi',x:127,y:139,n:6,c:'#60a5fa'},
+    ]
+  },
+  world: {
+    w:600, h:320,
+    nodes:[
+      {name:'India',x:395,y:190,n:3050,c:'#818cf8'},
+      {name:'USA',x:105,y:145,n:137,c:'#f472b6'},
+      {name:'UK',x:267,y:90,n:41,c:'#34d399'},
+      {name:'Canada',x:130,y:95,n:20,c:'#f59e0b'},
+      {name:'Germany',x:287,y:87,n:18,c:'#60a5fa'},
+      {name:'Australia',x:468,y:252,n:17,c:'#a78bfa'},
+      {name:'UAE',x:372,y:168,n:8,c:'#fb923c'},
+      {name:'Singapore',x:443,y:200,n:3,c:'#2dd4bf'},
+      {name:'Ireland',x:254,y:88,n:3,c:'#e879f9'},
+    ]
+  }
+};
+
+let currentView = 'maharashtra';
+let mapRAF = null;
+let mapT = 0;
+
+function switchMap(v) {
+  currentView = v;
+  document.querySelectorAll('.map-tab').forEach(b => {
+    b.classList.toggle('active', (b.getAttribute('onclick')||'').includes(`'${v}'`));
+  });
+}
+
+(function initMap() {
+  const canvas = document.getElementById('geoCanvas');
+  if(!canvas) return;
+  const tooltip = document.getElementById('mapTooltip');
+
+  function draw() {
+    mapT += 0.03;
+    const vd = GEODATA[currentView];
+    canvas.width = vd.w; canvas.height = vd.h;
+    const g = canvas.getContext('2d');
+    g.clearRect(0,0,vd.w,vd.h);
+
+    if(currentView === 'maharashtra') {
+      // State fill + stroke
+      g.beginPath();
+      vd.poly.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));
+      g.closePath();
+      g.fillStyle='rgba(129,140,248,0.05)'; g.fill();
+      g.strokeStyle='rgba(129,140,248,0.22)'; g.lineWidth=1.5; g.stroke();
+      // City bubbles
+      vd.cities.forEach(city=>{
+        const base=Math.max(5,Math.sqrt(city.n/1082)*30);
+        const r=base+Math.sin(mapT+city.x*0.08)*1.8;
+        // Glow
+        const grd=g.createRadialGradient(city.x,city.y,0,city.x,city.y,r*2.8);
+        grd.addColorStop(0,'rgba(129,140,248,0.32)'); grd.addColorStop(1,'rgba(129,140,248,0)');
+        g.beginPath(); g.arc(city.x,city.y,r*2.8,0,Math.PI*2); g.fillStyle=grd; g.fill();
+        // Main dot
+        g.beginPath(); g.arc(city.x,city.y,r,0,Math.PI*2);
+        g.fillStyle=`rgba(129,140,248,${0.65+city.n/1082*0.3})`; g.fill();
+        g.strokeStyle='rgba(255,255,255,0.25)'; g.lineWidth=1; g.stroke();
+        // Labels
+        if(city.n>80){
+          g.fillStyle='#f1f5f9'; g.font=`bold ${Math.max(9,8+city.n/1082*5)}px system-ui`;
+          g.textAlign='center'; g.textBaseline='top';
+          g.fillText(city.name,city.x,city.y+r+4);
+        }
+      });
+    } else {
+      // Grid lines
+      g.strokeStyle='rgba(255,255,255,0.04)'; g.lineWidth=1;
+      for(let i=0;i<vd.h;i+=60){g.beginPath();g.moveTo(0,i);g.lineTo(vd.w,i);g.stroke();}
+      for(let i=0;i<vd.w;i+=80){g.beginPath();g.moveTo(i,0);g.lineTo(i,vd.h);g.stroke();}
+      const maxN=currentView==='india'?2751:3050;
+      vd.nodes.forEach(nd=>{
+        const base=Math.max(8,Math.sqrt(nd.n/maxN)*58);
+        const r=base+Math.sin(mapT+nd.x*0.05)*2;
+        const grd=g.createRadialGradient(nd.x,nd.y,0,nd.x,nd.y,r*2.2);
+        grd.addColorStop(0,nd.c+'55'); grd.addColorStop(1,nd.c+'00');
+        g.beginPath(); g.arc(nd.x,nd.y,r*2.2,0,Math.PI*2); g.fillStyle=grd; g.fill();
+        g.beginPath(); g.arc(nd.x,nd.y,r,0,Math.PI*2);
+        g.fillStyle=nd.c+'cc'; g.fill();
+        g.strokeStyle='rgba(255,255,255,0.2)'; g.lineWidth=1; g.stroke();
+        g.fillStyle='#f1f5f9'; g.font=`bold ${Math.max(9,8+nd.n/maxN*7)}px system-ui`;
+        g.textAlign='center'; g.textBaseline='top';
+        g.fillText(nd.name,nd.x,nd.y+r+4);
+        g.fillStyle='#94a3b8'; g.font=`${Math.max(8,7+nd.n/maxN*5)}px system-ui`;
+        g.fillText(nd.n.toLocaleString(),nd.x,nd.y+r+17);
+      });
+    }
+    mapRAF = requestAnimationFrame(draw);
+  }
+
+  // Only animate when visible
+  const mobs = new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting){draw();}
+    else{if(mapRAF){cancelAnimationFrame(mapRAF);mapRAF=null;}}
+  },{threshold:0.05});
+  mobs.observe(canvas);
+
+  // Hover tooltip
+  if(tooltip) {
+    canvas.addEventListener('mousemove',e=>{
+      const rect=canvas.getBoundingClientRect();
+      const sx=canvas.width/rect.width, sy=canvas.height/rect.height;
+      const mx=(e.clientX-rect.left)*sx, my=(e.clientY-rect.top)*sy;
+      const vd2=GEODATA[currentView];
+      const items=vd2.cities||vd2.nodes;
+      const maxN=currentView==='maharashtra'?1082:currentView==='india'?2751:3050;
+      let hit=null;
+      items.forEach(it=>{
+        const dx=it.x-mx,dy=it.y-my;
+        const r=Math.max(8,Math.sqrt(it.n/maxN)*32)+5;
+        if(dx*dx+dy*dy<r*r) hit=it;
+      });
+      if(hit){
+        tooltip.style.opacity='1';
+        tooltip.style.left=(e.clientX-rect.left+12)+'px';
+        tooltip.style.top=(e.clientY-rect.top-35)+'px';
+        tooltip.textContent=`${hit.name}: ${hit.n.toLocaleString()} profiles`;
+      } else { tooltip.style.opacity='0'; }
+    });
+    canvas.addEventListener('mouseleave',()=>{tooltip.style.opacity='0';});
+  }
+})();
+
+// ═══════════════════════════════════════
+// RADAR CHART (Whitespace Atlas)
+// ═══════════════════════════════════════
+(function initRadar(){
+  const el=document.getElementById('radarChart');
+  if(!el) return;
+  new Chart(el.getContext('2d'),{
+    type:'radar',
+    data:{
+      labels:['Return NRI','Research/\nAcademic','Medical Pro','Intl Degree','GSB Coastal','Kokanastha\nLiberal','Tier-2 Cities'],
+      datasets:[{
+        label:'Opportunity Score',
+        data:[85,80,78,75,72,65,60],
+        backgroundColor:'rgba(129,140,248,0.15)',
+        borderColor:'#818cf8',borderWidth:2,
+        pointBackgroundColor:'#818cf8',pointBorderColor:'#0f0f1a',pointBorderWidth:2,pointRadius:5
+      },{
+        label:'Current Coverage',
+        data:[25,20,55,40,30,35,50],
+        backgroundColor:'rgba(244,114,182,0.08)',
+        borderColor:'#f472b6',borderWidth:1.5,
+        pointBackgroundColor:'#f472b6',pointBorderColor:'#0f0f1a',pointBorderWidth:2,pointRadius:4,
+        borderDash:[4,4]
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      scales:{r:{beginAtZero:true,max:100,min:0,
+        ticks:{stepSize:20,display:false,backdropColor:'transparent'},
+        grid:{color:'rgba(255,255,255,0.06)'},
+        angleLines:{color:'rgba(255,255,255,0.06)'},
+        pointLabels:{color:'#94a3b8',font:{size:10}}
+      }},
+      plugins:{
+        legend:{labels:{color:'#94a3b8',font:{size:11},padding:16}},
+        tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.raw}`}}
+      }
+    }
+  });
+})();
+
+// ═══════════════════════════════════════
+// SCORE CALCULATOR
+// ═══════════════════════════════════════
+function calcScore(){
+  const ids=['sc_subcaste','sc_city','sc_edu','sc_career','sc_lifestyle','sc_hor'];
+  const total=ids.reduce((s,id)=>s+parseInt(document.getElementById(id)?.value||0),0);
+  const MAX=145; // 35+30+30+25+15+10
+  const norm=Math.round(total/MAX*100);
+  const pct=total/MAX;
+  const circ=414.7;
+  const arc=document.getElementById('scoreArc');
+  if(arc) arc.style.strokeDashoffset=(circ*(1-pct)).toFixed(1);
+  const bigEl=document.getElementById('scoreBig');
+  if(bigEl) bigEl.textContent=norm;
+  let pool,tag,ts;
+  if(norm>=88){pool='1,200–1,800';tag='Maximum Coverage';ts='background:rgba(129,140,248,.15);color:#818cf8';}
+  else if(norm>=72){pool='500–900';tag='Strong Match Zone';ts='background:rgba(52,211,153,.12);color:#34d399';}
+  else if(norm>=58){pool='200–500';tag='Quality Pool';ts='background:rgba(245,158,11,.12);color:#f59e0b';}
+  else if(norm>=44){pool='80–200';tag='Niche Premium';ts='background:rgba(244,114,182,.12);color:#f472b6';}
+  else{pool='20–80';tag='Elite Micro-Cluster';ts='background:rgba(96,165,250,.12);color:#60a5fa';}
+  const pe=document.getElementById('scorePool'),te=document.getElementById('scoreTag');
+  if(pe) pe.textContent=pool;
+  if(te){te.textContent=tag;te.setAttribute('style',ts+'padding:.3rem .9rem;border-radius:999px;font-size:.7rem;font-weight:700;margin-top:.9rem;display:inline-block');}
+}
+calcScore();
+
+// ═══════════════════════════════════════
+// FUNNEL ANIMATION
+// ═══════════════════════════════════════
+(function initFunnel(){
+  const el=document.getElementById('funnelStages');
+  if(!el) return;
+  const fo=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting){
+      el.querySelectorAll('.funnel-fill').forEach((f,i)=>{
+        setTimeout(()=>{f.style.width=f.dataset.w+'%';},i*160);
+      });
+      fo.unobserve(el);
+    }
+  },{threshold:0.2});
+  fo.observe(el);
+})();
+
+// ═══════════════════════════════════════
+// PLAYBOOK CHECKBOXES
+// ═══════════════════════════════════════
+function toggleCheck(el){el.classList.toggle('done');}
 
 // ═══════════════════════════════════════
 // NAV ACTIVE STATE

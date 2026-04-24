@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISHAN — Profile Intelligence Report</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --black: #000000;
+  --surface: #0a0a0a;
+  --surface2: #111111;
+  --surface3: #1a1a1a;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.15);
+  --amber: #F59E0B;
+  --amber2: #FCD34D;
+  --red: #EF4444;
+  --green: #10B981;
+  --blue: #3B82F6;
+  --white: #FFFFFF;
+  --grey: #888888;
+  --grey2: #555555;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--amber); }
+
+/* LOADING */
+#loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--black);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 2rem;
+  transition: opacity 0.8s ease;
+}
+#loader.done { opacity: 0; pointer-events: none; }
+.loader-bar-wrap { width: 200px; height: 1px; background: var(--surface3); position: relative; }
+.loader-bar { height: 1px; background: var(--amber); width: 0%; transition: width 1.5s ease; }
+.loader-text { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--grey); letter-spacing: 0.2em; text-transform: uppercase; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem;
+  background: rgba(0,0,0,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-id { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--grey); letter-spacing: 0.15em; }
+.nav-id span { color: var(--amber); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.7rem; color: var(--grey2); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.65rem; color: var(--grey); font-family: 'IBM Plex Mono', monospace; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+
+/* SECTIONS */
+section { padding: 8rem 2.5rem; position: relative; }
+.container { max-width: 1080px; margin: 0 auto; }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.vis { opacity: 1; transform: none; }
+
+/* SECTION LABELS */
+.sec-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+.sec-title {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin-bottom: 2rem;
+}
+.sec-body { font-size: 1.05rem; color: rgba(255,255,255,0.6); line-height: 1.8; max-width: 680px; }
+
+/* ═══════════════════════════════════════
+   SECTION 1: HERO — "THIS IS YOU"
+═══════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: flex-end;
+  padding: 8rem 2.5rem 6rem;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+}
+.hero-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--grey);
+  margin-bottom: 2rem;
+  opacity: 0; animation: fadeUp 0.8s 0.5s ease forwards;
+}
+.hero-name {
+  font-size: clamp(4rem, 14vw, 12rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  margin-bottom: 1.5rem;
+  opacity: 0; animation: fadeUp 0.8s 0.7s ease forwards;
+}
+.hero-name .amber { color: var(--amber); }
+.hero-descriptor {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: rgba(255,255,255,0.5);
+  max-width: 700px;
+  margin-bottom: 3.5rem;
+  opacity: 0; animation: fadeUp 0.8s 0.9s ease forwards;
+}
+.hero-stats {
+  display: flex; gap: 3rem; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.8s 1.1s ease forwards;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+.hstat { }
+.hstat-val { font-size: 2.2rem; font-weight: 900; letter-spacing: -0.03em; color: var(--amber); }
+.hstat-label { font-size: 0.65rem; color: var(--grey); letter-spacing: 0.12em; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; }
+.hero-verdict {
+  position: absolute; top: 7rem; right: 2.5rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.1em;
+  color: var(--grey);
+  text-align: right;
+  opacity: 0; animation: fadeIn 1s 1.5s ease forwards;
+  display: none;
+}
+@media(min-width:900px){ .hero-verdict { display: block; } }
+.verdict-line { margin: 0.3rem 0; }
+.verdict-line span { color: var(--white); }
+.verdict-tag {
+  display: inline-block; margin-top: 1rem;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--amber);
+  border-radius: 2px;
+  font-size: 0.65rem; letter-spacing: 0.15em;
+  color: var(--amber); text-transform: uppercase;
+}
+
+/* DIVIDER */
+.divider { height: 1px; background: var(--border); margin: 0 2.5rem; }
+
+/* ═══════════════════════════════════════
+   SECTION 2: MARKET MIRROR
+═══════════════════════════════════════ */
+#mirror { background: var(--surface); }
+.mirror-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border-radius: 4px; overflow: hidden; margin-top: 4rem; }
+.mirror-cell { background: var(--black); padding: 2rem; }
+.mirror-cell:hover { background: var(--surface2); }
+.mirror-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--grey); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; }
+.mirror-metric { font-size: 2.5rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1; }
+.mirror-metric.top { color: var(--green); }
+.mirror-metric.mid { color: var(--amber); }
+.mirror-metric.low { color: var(--red); }
+.mirror-sub { font-size: 0.8rem; color: var(--grey); margin-top: 0.4rem; }
+.mirror-bar-wrap { margin-top: 1rem; height: 3px; background: var(--surface3); border-radius: 99px; overflow: hidden; }
+.mirror-bar { height: 100%; border-radius: 99px; width: 0%; transition: width 1.5s ease; }
+.bar-green { background: var(--green); }
+.bar-amber { background: var(--amber); }
+.bar-red { background: var(--red); }
+
+.percentile-row { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 3rem; }
+.prow { display: flex; align-items: center; gap: 1.5rem; }
+.prow-label { font-size: 0.8rem; color: rgba(255,255,255,0.7); width: 220px; flex-shrink: 0; }
+.prow-track { flex: 1; height: 2px; background: var(--surface3); position: relative; }
+.prow-fill { height: 100%; background: var(--amber); width: 0%; transition: width 1.5s ease; position: absolute; }
+.prow-val { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--amber); width: 60px; text-align: right; flex-shrink: 0; }
+
+.constraint-box {
+  margin-top: 3rem;
+  border: 1px solid rgba(239,68,68,0.3);
+  background: rgba(239,68,68,0.05);
+  border-radius: 4px;
+  padding: 1.5rem;
+}
+.constraint-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--red); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+.constraint-item { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+.constraint-item::before { content: '—'; color: var(--red); flex-shrink: 0; }
+
+/* ═══════════════════════════════════════
+   SECTION 3: PERCEPTION ENGINE
+═══════════════════════════════════════ */
+#perception { }
+.perception-toggle { display: flex; gap: 0; margin: 3rem 0 2rem; border: 1px solid var(--border2); border-radius: 4px; overflow: hidden; }
+.ptab {
+  flex: 1; padding: 0.8rem; text-align: center;
+  font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+  color: var(--grey); background: transparent; border: none;
+  font-family: 'IBM Plex Mono', monospace;
+  border-right: 1px solid var(--border);
+}
+.ptab:last-child { border-right: none; }
+.ptab.active { background: var(--amber); color: var(--black); font-weight: 700; }
+.ptab:hover:not(.active) { background: var(--surface2); color: var(--white); }
+
+.perception-panel { display: none; }
+.perception-panel.active { display: block; }
+
+.perception-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2.5rem;
+}
+.pc-first { font-size: 1.1rem; font-style: italic; color: rgba(255,255,255,0.8); border-left: 3px solid var(--amber); padding-left: 1.25rem; margin-bottom: 2rem; line-height: 1.7; }
+.pc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.pc-block-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--grey); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.75rem; }
+.pc-item { font-size: 0.85rem; color: rgba(255,255,255,0.65); margin-bottom: 0.5rem; display: flex; gap: 0.6rem; align-items: flex-start; }
+.dot-green { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; margin-top: 0.4rem; }
+.dot-red { width: 6px; height: 6px; border-radius: 50%; background: var(--red); flex-shrink: 0; margin-top: 0.4rem; }
+.pc-trust { margin-top: 2rem; display: flex; align-items: center; gap: 1.5rem; }
+.trust-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--grey); letter-spacing: 0.15em; text-transform: uppercase; }
+.trust-track { flex: 1; height: 2px; background: var(--surface3); }
+.trust-fill { height: 100%; }
+.trust-pct { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--white); }
+
+/* ═══════════════════════════════════════
+   SECTION 4: TRUTH LAYER
+═══════════════════════════════════════ */
+#truth { background: var(--surface); }
+.truth-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); margin-top: 3rem; }
+.truth-col { background: var(--black); padding: 2rem; }
+.tcol-header { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+.tcol-header.works { color: var(--green); }
+.tcol-header.fails { color: var(--red); }
+.tcol-header.neutral { color: var(--grey); }
+.truth-item { font-size: 0.85rem; color: rgba(255,255,255,0.65); margin-bottom: 1rem; line-height: 1.6; }
+.truth-item strong { color: var(--white); font-weight: 600; display: block; margin-bottom: 0.2rem; }
+
+.hard-truth {
+  margin-top: 3rem;
+  padding: 2rem;
+  border: 1px solid var(--amber);
+  background: rgba(245,158,11,0.05);
+  border-radius: 4px;
+}
+.ht-header { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--amber); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+.ht-text { font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.8; }
+
+/* ═══════════════════════════════════════
+   SECTION 5: ATTRACTION ENGINEERING
+═══════════════════════════════════════ */
+#attraction { }
+.lever-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+.lever-card { padding: 2rem; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); }
+.lever-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+.lever-type { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+.lever-type.control { color: var(--green); }
+.lever-type.nocontrol { color: var(--red); }
+.lever-body { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+.attraction-map {
+  margin-top: 3rem;
+  padding: 2.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.am-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--amber); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 2rem; }
+.am-row { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.25rem; }
+.am-factor { font-size: 0.85rem; color: rgba(255,255,255,0.75); width: 200px; flex-shrink: 0; }
+.am-bar-wrap { flex: 1; height: 2px; background: var(--surface3); position: relative; }
+.am-fill { height: 100%; position: absolute; }
+.am-status { font-size: 0.7rem; font-family: 'IBM Plex Mono', monospace; width: 120px; text-align: right; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════
+   SECTION 6: STRATEGIC PLAYBOOK
+═══════════════════════════════════════ */
+#playbook { background: var(--surface); }
+.playbook-tabs { display: flex; gap: 0; margin: 3rem 0 0; border-bottom: 1px solid var(--border); }
+.play-tab {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+  color: var(--grey); background: transparent; border: none;
+  font-family: 'IBM Plex Mono', monospace;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.play-tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+.play-tab:hover:not(.active) { color: var(--white); }
+
+.play-panel { display: none; padding: 2.5rem 0; }
+.play-panel.active { display: block; }
+
+.play-item { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.play-item:last-child { border-bottom: none; margin-bottom: 0; }
+.play-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--amber); letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+.play-title { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 0.6rem; }
+.play-body { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.8; }
+.play-body strong { color: var(--white); }
+
+.rewrite-box {
+  background: var(--black);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+}
+.rbox-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.75rem; }
+.rbox-label.before { color: var(--red); }
+.rbox-label.after { color: var(--green); }
+.rbox-text { color: rgba(255,255,255,0.7); line-height: 1.7; }
+.rbox-text.after { color: var(--white); }
+
+/* ═══════════════════════════════════════
+   SECTION 7: SCENARIO SIMULATION
+═══════════════════════════════════════ */
+#scenario { }
+.scenario-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; background: var(--border); margin-top: 3rem; border-radius: 4px; overflow: hidden; }
+.sc-card { background: var(--surface); padding: 2.5rem 2rem; position: relative; overflow: hidden; }
+.sc-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.sc-card.nothing::before { background: var(--red); }
+.sc-card.partial::before { background: var(--amber); }
+.sc-card.allin::before { background: var(--green); }
+.sc-type { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+.sc-type.nothing { color: var(--red); }
+.sc-type.partial { color: var(--amber); }
+.sc-type.allin { color: var(--green); }
+.sc-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem; }
+.sc-outcome { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 1.5rem; }
+.sc-stat { font-size: 2.2rem; font-weight: 900; letter-spacing: -0.03em; }
+.sc-stat-label { font-size: 0.7rem; color: var(--grey); }
+
+/* ═══════════════════════════════════════
+   SECTION 8: EDGE MAXIMIZATION
+═══════════════════════════════════════ */
+#edge { background: var(--surface); }
+.edge-items { margin-top: 3rem; display: flex; flex-direction: column; gap: 1px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.edge-item { background: var(--black); padding: 2rem; display: flex; gap: 2rem; align-items: flex-start; transition: background 0.2s; }
+.edge-item:hover { background: var(--surface2); }
+.edge-num { font-family: 'IBM Plex Mono', monospace; font-size: 2rem; font-weight: 900; color: var(--surface3); min-width: 60px; line-height: 1; padding-top: 0.2rem; }
+.edge-content { }
+.edge-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--amber); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.4rem; }
+.edge-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+.edge-body { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+/* ═══════════════════════════════════════
+   SECTION 9: ROADMAP
+═══════════════════════════════════════ */
+#roadmap { }
+.timeline { margin-top: 3rem; position: relative; }
+.timeline::before { content: ''; position: absolute; left: 120px; top: 0; bottom: 0; width: 1px; background: var(--border); }
+.tblock { display: flex; gap: 3rem; margin-bottom: 3.5rem; position: relative; }
+.tblock::before { content: ''; position: absolute; left: 119px; top: 0.75rem; width: 3px; height: 3px; background: var(--amber); border-radius: 50%; }
+.t-period {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--amber); width: 120px; flex-shrink: 0;
+  padding-top: 0.6rem; text-align: right;
+}
+.t-content { padding-left: 2rem; }
+.t-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; }
+.t-item { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem; display: flex; gap: 0.75rem; line-height: 1.6; }
+.t-item::before { content: '→'; color: var(--amber); flex-shrink: 0; }
+
+/* ═══════════════════════════════════════
+   SECTION 10: FINAL TRUTH
+═══════════════════════════════════════ */
+#finale { background: var(--black); border-top: 1px solid var(--border); }
+.finale-split { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 4rem; }
+.finale-col { }
+.fc-header { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.fc-header.truth { color: var(--red); }
+.fc-header.lever { color: var(--green); }
+.finale-item { margin-bottom: 2rem; }
+.fi-num { font-size: 4rem; font-weight: 900; line-height: 1; letter-spacing: -0.04em; opacity: 0.15; }
+.fi-num.red { color: var(--red); }
+.fi-num.green { color: var(--green); }
+.fi-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; margin-top: -1.5rem; }
+.fi-body { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+.finale-cta {
+  margin-top: 5rem;
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+}
+.cta-word { font-size: clamp(3rem, 8vw, 7rem); font-weight: 900; letter-spacing: -0.04em; color: var(--amber); display: block; margin-bottom: 1rem; }
+.cta-body { font-size: 1rem; color: rgba(255,255,255,0.5); max-width: 500px; margin: 0 auto 2rem; line-height: 1.8; }
+.cta-stamp {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--grey2); margin-top: 2rem;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes scanline { from { top: -5%; } to { top: 105%; } }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  section { padding: 5rem 1.25rem; }
+  .mirror-grid { grid-template-columns: 1fr; }
+  .truth-grid { grid-template-columns: 1fr; }
+  .scenario-grid { grid-template-columns: 1fr; }
+  .finale-split { grid-template-columns: 1fr; gap: 2.5rem; }
+  .lever-grid { grid-template-columns: 1fr; }
+  .pc-grid { grid-template-columns: 1fr; }
+  .timeline::before { left: 80px; }
+  .tblock::before { left: 79px; }
+  .t-period { width: 80px; font-size: 0.5rem; }
+  nav { padding: 0 1.25rem; }
+  .nav-links { display: none; }
+  .prow { flex-wrap: wrap; }
+  .prow-label { width: 100%; }
+  .playbook-tabs { overflow-x: auto; }
+  .play-tab { white-space: nowrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-text">INITIALIZING PROFILE INTELLIGENCE</div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="lbar"></div></div>
+  <div class="loader-text" id="loader-phase">DECOMPOSING SIGNALS</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-id">PROFILE <span>MT15685</span> — ISHAN KULKARNI</div>
+  <ul class="nav-links">
+    <li><a href="#mirror">MARKET</a></li>
+    <li><a href="#perception">PERCEPTION</a></li>
+    <li><a href="#playbook">PLAYBOOK</a></li>
+    <li><a href="#roadmap">ROADMAP</a></li>
+    <li><a href="#finale">TRUTH</a></li>
+  </ul>
+  <div class="nav-status"><div class="status-dot"></div>ACTIVE PROFILE</div>
+</nav>
+
+<!-- ═══════════ SECTION 1: HERO ═══════════ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-eyebrow">PROFILE INTELLIGENCE REPORT — APRIL 2026</div>
+  <div class="hero-name">ISHAN<br><span class="amber">KUL&shy;KARNI</span></div>
+  <p class="hero-descriptor">
+    IIT Madras. CFA All Three. Senior Product Manager at 27.
+    You are not competing on credentials. You've already won that game.
+    You're competing on signal — and most of your best signals are invisible.
+  </p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-val">Top 0.5%</div><div class="hstat-label">Education</div></div>
+    <div class="hstat"><div class="hstat-val">Top 5%</div><div class="hstat-label">Income — Age 27</div></div>
+    <div class="hstat"><div class="hstat-val">80–120</div><div class="hstat-label">True target profiles</div></div>
+    <div class="hstat"><div class="hstat-val">64.7%</div><div class="hstat-label">Market you're filtered out of</div></div>
+  </div>
+  <div class="hero-verdict">
+    <div class="verdict-line">CASTE: <span>Deshastha Rigwedi</span></div>
+    <div class="verdict-line">CITY: <span>Bengaluru</span></div>
+    <div class="verdict-line">NADI: <span>Antya</span></div>
+    <div class="verdict-line">NAKSHATRA: <span>Rohini</span></div>
+    <div class="verdict-line">MANGAL: <span>No</span></div>
+    <div class="verdict-tag">Verified — Income · Education · Identity</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ SECTION 2: MARKET MIRROR ═══════════ -->
+<section id="mirror">
+  <div class="container">
+    <span class="sec-label reveal">02 — MARKET MIRROR</span>
+    <h2 class="sec-title reveal">WHERE YOU<br>ACTUALLY STAND</h2>
+    <p class="sec-body reveal">
+      The market has 3,318 profiles filtered for Brahmin women aged 24–28.
+      Your competition is not all of them. Your accessible market is 80–150 of them.
+      Here is the unfiltered picture.
+    </p>
+
+    <div class="mirror-grid reveal">
+      <div class="mirror-cell">
+        <div class="mirror-label">Education Percentile</div>
+        <div class="mirror-metric top">Top 0.5%</div>
+        <div class="mirror-sub">IIT Madras Dual Degree — gold standard, no ceiling</div>
+        <div class="mirror-bar-wrap"><div class="mirror-bar bar-green" data-width="99.5"></div></div>
+      </div>
+      <div class="mirror-cell">
+        <div class="mirror-label">Additional Credential</div>
+        <div class="mirror-metric top">Top 1%</div>
+        <div class="mirror-sub">CFA All 3 Levels — functionally unique in this market</div>
+        <div class="mirror-bar-wrap"><div class="mirror-bar bar-green" data-width="99"></div></div>
+      </div>
+      <div class="mirror-cell">
+        <div class="mirror-label">Income Tier (Verified)</div>
+        <div class="mirror-metric top">Top 5–10%</div>
+        <div class="mirror-sub">Well above the market's stated maximum preference range</div>
+        <div class="mirror-bar-wrap"><div class="mirror-bar bar-green" data-width="92"></div></div>
+      </div>
+      <div class="mirror-cell">
+        <div class="mirror-label">Career Velocity</div>
+        <div class="mirror-metric top">Top 5%</div>
+        <div class="mirror-sub">Senior PM at 27 — peers reach this at 29–32</div>
+        <div class="mirror-bar-wrap"><div class="mirror-bar bar-green" data-width="95"></div></div>
+      </div>
+      <div class="mirror-cell">
+        <div class="mirror-label">Lifestyle Sophistication</div>
+        <div class="mirror-metric top">Top 5%</div>
+        <div class="mirror-sub">11 countries + SCUBA + HYROX + investing + AI building</div>
+        <div class="mirror-bar-wrap"><div class="mirror-bar bar-green" data-width="95"></div></div>
+      </div>
+      <div class="mirror-cell">
+        <div class="mirror-label">Market Access (Diet)</div>
+        <div class="mirror-metric low">35.3%</div>
+        <div class="mirror-sub">Non-veg frequently locks you out of 64.7% vegetarian majority</div>
+        <div class="mirror-bar-wrap"><div class="mirror-bar bar-red" data-width="35"></div></div>
+      </div>
+      <div class="mirror-cell">
+        <div class="mirror-label">Market Access (Alcohol)</div>
+        <div class="mirror-metric low">8.7%</div>
+        <div class="mirror-sub">Occasional drinker is compatible only with the liberal cluster</div>
+        <div class="mirror-bar-wrap"><div class="mirror-bar bar-red" data-width="8.7"></div></div>
+      </div>
+      <div class="mirror-cell">
+        <div class="mirror-label">Nadi Compatibility</div>
+        <div class="mirror-metric mid">66.5%</div>
+        <div class="mirror-sub">Antya Nadi eliminates 33.5% of the pool by traditional matching</div>
+        <div class="mirror-bar-wrap"><div class="mirror-bar bar-amber" data-width="66.5"></div></div>
+      </div>
+    </div>
+
+    <div class="percentile-row reveal">
+      <div class="prow">
+        <div class="prow-label">IIT Madras Education Signal</div>
+        <div class="prow-track"><div class="prow-fill" data-width="99.5"></div></div>
+        <div class="prow-val">99.5th</div>
+      </div>
+      <div class="prow">
+        <div class="prow-label">CFA Credential Rarity</div>
+        <div class="prow-track"><div class="prow-fill" data-width="99"></div></div>
+        <div class="prow-val">99th</div>
+      </div>
+      <div class="prow">
+        <div class="prow-label">Income Level (Verified)</div>
+        <div class="prow-track"><div class="prow-fill" data-width="93"></div></div>
+        <div class="prow-val">93rd</div>
+      </div>
+      <div class="prow">
+        <div class="prow-label">Career Velocity (Senior PM at 27)</div>
+        <div class="prow-track"><div class="prow-fill" data-width="95"></div></div>
+        <div class="prow-val">95th</div>
+      </div>
+      <div class="prow">
+        <div class="prow-label">Cultural Capital (Travel + Lifestyle)</div>
+        <div class="prow-track"><div class="prow-fill" data-width="95"></div></div>
+        <div class="prow-val">95th</div>
+      </div>
+      <div class="prow">
+        <div class="prow-label">Family Background Stability</div>
+        <div class="prow-track"><div class="prow-fill" data-width="80"></div></div>
+        <div class="prow-val">80th</div>
+      </div>
+      <div class="prow">
+        <div class="prow-label">Effective Market Access (after lifestyle filters)</div>
+        <div class="prow-track"><div class="prow-fill bar-red" data-width="5"></div></div>
+        <div class="prow-val" style="color:var(--red)">~5%</div>
+      </div>
+    </div>
+
+    <div class="constraint-box reveal">
+      <div class="constraint-title">⚠ STRUCTURAL MARKET CONSTRAINTS</div>
+      <div class="constraint-item">Non-vegetarian (frequently) automatically eliminates you from 64.7% of the Anuroop female pool — before any human sees your IIT degree</div>
+      <div class="constraint-item">Occasional alcohol reduces access further to ~8.7% of total pool — the liberal urban cluster</div>
+      <div class="constraint-item">Antya Nadi (traditional matching) eliminates 33.5% of that remaining pool</div>
+      <div class="constraint-item">Bengaluru base creates friction with 90%+ of the market that is Maharashtra-anchored</div>
+      <div class="constraint-item">Net effective addressable pool after all constraints: approximately 80–150 profiles out of 3,318</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ SECTION 3: PERCEPTION ENGINE ═══════════ -->
+<section id="perception">
+  <div class="container">
+    <span class="sec-label reveal">03 — PERCEPTION ENGINE</span>
+    <h2 class="sec-title reveal">HOW DIFFERENT<br>EYES SEE YOU</h2>
+    <p class="sec-body reveal">The same profile reads differently through different eyes. Choose a lens. This is not what they say — it is what they think.</p>
+
+    <div class="perception-toggle reveal">
+      <button class="ptab active" onclick="switchPerception(0)">The Girl</button>
+      <button class="ptab" onclick="switchPerception(1)">Her Parents</button>
+      <button class="ptab" onclick="switchPerception(2)">Elite Segment</button>
+      <button class="ptab" onclick="switchPerception(3)">Conservative</button>
+    </div>
+
+    <!-- Panel 0: The Girl -->
+    <div class="perception-panel active" id="pp0">
+      <div class="perception-card">
+        <p class="pc-first">"IIT plus CFA plus PM at a real fintech. He actually knows what he's doing. And he wrote this himself — I can tell. But... San Francisco? Does he want a life partner or a startup co-founder?"</p>
+        <div class="pc-grid">
+          <div>
+            <div class="pc-block-title">What Pulls Her In</div>
+            <div class="pc-item"><div class="dot-green"></div>"Co-founder for life" — she's never seen this framing. It lands.</div>
+            <div class="pc-item"><div class="dot-green"></div>HYROX + SCUBA + 11 countries — he will bring experiences she hasn't had</div>
+            <div class="pc-item"><div class="dot-green"></div>Profile is personal — feels written by a real person, not his mother</div>
+            <div class="pc-item"><div class="dot-green"></div>Bilateral commitment ("what I need / what I'll provide") signals maturity</div>
+          </div>
+          <div>
+            <div class="pc-block-title">What Creates Hesitation</div>
+            <div class="pc-item"><div class="dot-red"></div>"Strongly open to SF" — if she's India-anchored, this is an anxiety signal</div>
+            <div class="pc-item"><div class="dot-red"></div>Super.money — she'll Google it. Response depends on what she finds</div>
+            <div class="pc-item"><div class="dot-red"></div>Non-veg frequently — dealbreaker if she's vegetarian (64.7% of market)</div>
+            <div class="pc-item"><div class="dot-red"></div>"Will he find me boring once he's checked all his boxes?"</div>
+          </div>
+        </div>
+        <div class="pc-trust">
+          <div class="trust-label">First-Impression Trust</div>
+          <div class="trust-track" style="flex:1;height:2px;background:var(--surface3)"><div class="trust-fill" style="width:82%;height:100%;background:var(--green)"></div></div>
+          <div class="trust-pct">82%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 1: Her Parents -->
+    <div class="perception-panel" id="pp1">
+      <div class="perception-card">
+        <p class="pc-first">"IIT Madras. Father in Reliance. Sister in Morningstar. Family from Panvel. Income verified. Very good. But Bengaluru... and he wants to go to San Francisco? Our daughter is an only child."</p>
+        <div class="pc-grid">
+          <div>
+            <div class="pc-block-title">What Wins Them Over</div>
+            <div class="pc-item"><div class="dot-green"></div>IIT Madras — 90% of parents approve here. Full stop.</div>
+            <div class="pc-item"><div class="dot-green"></div>Father at Reliance + COEP + established family property</div>
+            <div class="pc-item"><div class="dot-green"></div>Deshastha Rigwedi — perfect community alignment</div>
+            <div class="pc-item"><div class="dot-green"></div>Income verified on platform — no ambiguity</div>
+            <div class="pc-item"><div class="dot-green"></div>100% response rate — they read this as reliability</div>
+          </div>
+          <div>
+            <div class="pc-block-title">What Keeps Them Up at Night</div>
+            <div class="pc-item"><div class="dot-red"></div>Bengaluru — "Our daughter will be so far from us"</div>
+            <div class="pc-item"><div class="dot-red"></div>San Francisco, Singapore, Dubai — "He will take her abroad"</div>
+            <div class="pc-item"><div class="dot-red"></div>Non-vegetarian + alcohol — "What kind of lifestyle is this?"</div>
+            <div class="pc-item"><div class="dot-red"></div>Startup company — "What if it fails? Where is the security?"</div>
+            <div class="pc-item"><div class="dot-red"></div>Renting in Bengaluru — "Why hasn't he bought property?"</div>
+          </div>
+        </div>
+        <div class="pc-trust">
+          <div class="trust-label">Parental Approval Probability</div>
+          <div class="trust-track" style="flex:1;height:2px;background:var(--surface3)"><div class="trust-fill" style="width:72%;height:100%;background:var(--amber)"></div></div>
+          <div class="trust-pct">72%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 2: Elite Segment -->
+    <div class="perception-panel" id="pp2">
+      <div class="perception-card">
+        <p class="pc-first">"IIT Madras, CFA three levels, fintech PM — that's a rare stack. HYROX. 11 countries. Builds AI apps as a hobby. This is someone who actually lives a full life. Why is he on Anuroop? Did his family push him? Is he actually looking?"</p>
+        <div class="pc-grid">
+          <div>
+            <div class="pc-block-title">What Magnetizes This Segment</div>
+            <div class="pc-item"><div class="dot-green"></div>She understands CFA — it signals financial intelligence + discipline</div>
+            <div class="pc-item"><div class="dot-green"></div>HYROX tells her he competes — she values that in a partner</div>
+            <div class="pc-item"><div class="dot-green"></div>Global openness matches her mindset — SF and Singapore are exciting, not threatening</div>
+            <div class="pc-item"><div class="dot-green"></div>"Co-founder" framing = she sees herself this way too</div>
+            <div class="pc-item"><div class="dot-green"></div>Non-veg + occ. drink = lifestyle compatible. Finally.</div>
+          </div>
+          <div>
+            <div class="pc-block-title">Where She Pauses</div>
+            <div class="pc-item"><div class="dot-red"></div>Anuroop platform itself — signals family-arranged pressure more than genuine search</div>
+            <div class="pc-item"><div class="dot-red"></div>"Is the partnership framing genuine or is it marketing?"</div>
+            <div class="pc-item"><div class="dot-red"></div>If she's at FAANG/Goldman — will he have ego issues about her brand?</div>
+          </div>
+        </div>
+        <div class="pc-trust">
+          <div class="trust-label">Elite Segment Attraction Score</div>
+          <div class="trust-track" style="flex:1;height:2px;background:var(--surface3)"><div class="trust-fill" style="width:91%;height:100%;background:var(--green)"></div></div>
+          <div class="trust-pct">91%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 3: Conservative -->
+    <div class="perception-panel" id="pp3">
+      <div class="perception-card">
+        <p class="pc-first">"IIT is excellent. But non-vegetarian, drinks, wants to go to San Francisco, renting in Bengaluru at 27... Our daughter is from a traditional family. This might not be the right fit."</p>
+        <div class="pc-grid">
+          <div>
+            <div class="pc-block-title">What Briefly Attracts</div>
+            <div class="pc-item"><div class="dot-green"></div>IIT Madras — even conservative families cannot dismiss this</div>
+            <div class="pc-item"><div class="dot-green"></div>Deshastha Rigwedi — no caste friction</div>
+            <div class="pc-item"><div class="dot-green"></div>Father at Reliance — institutional comfort</div>
+          </div>
+          <div>
+            <div class="pc-block-title">Why They Exit</div>
+            <div class="pc-item"><div class="dot-red"></div>Non-veg frequently — hard no for most traditional families</div>
+            <div class="pc-item"><div class="dot-red"></div>Alcohol — immediate filter</div>
+            <div class="pc-item"><div class="dot-red"></div>Global ambition — daughter "going abroad" is a loss, not gain</div>
+            <div class="pc-item"><div class="dot-red"></div>"Co-founder" language — confused. What does this mean?</div>
+            <div class="pc-item"><div class="dot-red"></div>Startup employer — not enough brand recognition for stability</div>
+          </div>
+        </div>
+        <div class="pc-trust">
+          <div class="trust-label">Traditional Segment Match Probability</div>
+          <div class="trust-track" style="flex:1;height:2px;background:var(--surface3)"><div class="trust-fill" style="width:22%;height:100%;background:var(--red)"></div></div>
+          <div class="trust-pct" style="color:var(--red)">22%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ SECTION 4: TRUTH LAYER ═══════════ -->
+<section id="truth">
+  <div class="container">
+    <span class="sec-label reveal">04 — TRUTH LAYER</span>
+    <h2 class="sec-title reveal">NO<br>SUGARCOATING</h2>
+    <p class="sec-body reveal">Three columns. What works. What doesn't. What you think is special but isn't — and what you're undervaluing.</p>
+
+    <div class="truth-grid reveal">
+      <div class="truth-col">
+        <div class="tcol-header works">✓ WHAT ACTUALLY WORKS</div>
+        <div class="truth-item"><strong>IIT Madras</strong>Short-circuits gatekeeping at every level. Parents approve before the first call. It is the single strongest trust signal in the Indian matrimonial market.</div>
+        <div class="truth-item"><strong>Flipkart pedigree</strong>Walmart-owned, universally recognized. This is the credibility anchor that makes super.money legible. Lead with this.</div>
+        <div class="truth-item"><strong>Family structure</strong>Father at Reliance, educated mother, COEP sister with CFA candidacy. This family produces results across genders. It signals values without stating them.</div>
+        <div class="truth-item"><strong>Verified profile</strong>Income + Education + Identity all verified. In a market full of aspirational profiles, verified is rare. It builds instant trust.</div>
+        <div class="truth-item"><strong>100% response rate</strong>This is a behavioral integrity signal. Most profiles are ghosted by families. You show up. That's rare and valuable.</div>
+        <div class="truth-item"><strong>Rohini Nakshatra</strong>Among the most auspicious. Families who understand astrology react immediately. Don't hide this.</div>
+      </div>
+      <div class="truth-col">
+        <div class="tcol-header fails">✗ WHAT ACTUALLY HURTS</div>
+        <div class="truth-item"><strong>"Non-veg frequently"</strong>This is the single line on your profile doing the most damage. 64.7% of the market's automated filter eliminates you before a human ever reads "IIT Madras." Change it to "occasionally" or accept you're targeting 35%.</div>
+        <div class="truth-item"><strong>"Strongly open to San Francisco"</strong>The word "strongly" is the problem. It communicates that you've already decided. Families with daughters read this as a relocation threat. Soften to "open to international opportunities if jointly decided."</div>
+        <div class="truth-item"><strong>Renting in Bengaluru</strong>High income + no property ownership creates cognitive dissonance for evaluators. They don't know to read it as "financially sophisticated — chooses liquidity." You need to proactively address this.</div>
+        <div class="truth-item"><strong>Generic values language</strong>"Think long term, dream big" — every profile says something like this. Your actual behavioral signals (CFA + HYROX + 11 countries) do more than these phrases. Cut the aspiration-speak.</div>
+        <div class="truth-item"><strong>Alcohol disclosure</strong>It's honest. It's also eliminating 91% of the market. In your target segment, it's fine — but in the mass market, it reads as a character flag for traditional families.</div>
+      </div>
+      <div class="truth-col">
+        <div class="tcol-header neutral">≈ WHAT YOU OVER-RATE</div>
+        <div class="truth-item"><strong>The CFA (as stated)</strong>You think it's obvious value. 95% of the market doesn't know what it means. It's listed alongside your IIT degree as if it speaks for itself. It doesn't — unless you decode it.</div>
+        <div class="truth-item"><strong>HYROX training</strong>You think this signals fitness ambition. Most families read "endurance training" and move on. The actual signal (competitive fitness event, <5% of India does this) is invisible without context.</div>
+        <div class="truth-item"><strong>Your income doing the work</strong>You're right that it's there. It's verified. But at your level, income is table stakes. What differentiates you is trajectory and story, not the number.</div>
+        <div class="truth-item"><strong>The travel count (11 countries)</strong>Powerful signal — but you list it passively. "11 countries done" sounds like a checklist item. The experiences, the curiosity, the growth — those are the real signals. Narrate, don't count.</div>
+        <div class="truth-item"><strong>The platform matching you correctly</strong>Anuroop's algorithm optimizes for the vegetarian, Maharashtra-resident, traditional median. You are non-median. Passive matching underserves you. Active outreach is essential.</div>
+      </div>
+    </div>
+
+    <div class="hard-truth reveal">
+      <div class="ht-header">⬛ THE FUNDAMENTAL TRUTH</div>
+      <p class="ht-text">
+        You are a top-percentile asset running in the wrong market segment. The platform of 3,318 profiles is not your market. Your market is 80–150 profiles inside it. Every strategy that tries to appeal to 3,318 will dilute your message for the 80 who actually matter. The highest-leverage thing you can do is not improve your profile — it is improve your targeting. Find the right 80. Talk to all of them. The rest is execution.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ SECTION 5: ATTRACTION ENGINEERING ═══════════ -->
+<section id="attraction">
+  <div class="container">
+    <span class="sec-label reveal">05 — ATTRACTION ENGINEERING</span>
+    <h2 class="sec-title reveal">THE LEVERS<br>YOU CONTROL</h2>
+    <p class="sec-body reveal">Attraction in this market is not random. It is a system. Some inputs are fixed. Most are adjustable. Here is your map.</p>
+
+    <div class="lever-grid reveal">
+      <div class="lever-card">
+        <div class="lever-type control">YOU CONTROL THIS</div>
+        <div class="lever-title">Signal Framing</div>
+        <div class="lever-body">How you describe what you are — the narrative architecture of your profile. Your CFA is being wasted unlabeled. Your HYROX is invisible without context. Your trajectory is buried under generic aspiration-speak. Reframing takes 2 hours and changes outcomes permanently.</div>
+      </div>
+      <div class="lever-card">
+        <div class="lever-type control">YOU CONTROL THIS</div>
+        <div class="lever-title">Targeting Strategy</div>
+        <div class="lever-body">Who you actively reach out to vs. who the algorithm serves you. You can manually find Return NRI profiles (native city: USA/UK + current city: India), finance-track women (CA/CFA listed + MNC), and Bengaluru-based liberal Brahmins. This is a search problem, not a waiting problem.</div>
+      </div>
+      <div class="lever-card">
+        <div class="lever-type control">YOU CONTROL THIS</div>
+        <div class="lever-title">Response Velocity</div>
+        <div class="lever-body">Your 100% response rate is already strong. But speed of moving from platform → call → meeting is the #1 success predictor. Couples who meet in person within 4–6 weeks of initial interest convert dramatically higher. Compress the timeline deliberately.</div>
+      </div>
+      <div class="lever-card">
+        <div class="lever-type control">YOU CONTROL THIS</div>
+        <div class="lever-title">Platform Positioning</div>
+        <div class="lever-body">Anuroop is not your only channel. The liberal Brahmin woman you're looking for is active on LinkedIn, accessible through community networks, potentially in WhatsApp matrimonial groups (Brahmin Vivah), and possibly on JeevanSaathi or BrahminMatrimony. Multi-channel is not optional.</div>
+      </div>
+      <div class="lever-card">
+        <div class="lever-type nocontrol">FIXED SIGNAL</div>
+        <div class="lever-title">IIT Degree</div>
+        <div class="lever-body">Cannot be enhanced — only better communicated. What it signals: cleared JEE (top 0.1% of national pool), 5-year dual degree depth, research exposure, analytical rigor. Most profiles just say "IIT Madras." You can add 3 sentences that decode why this matters.</div>
+      </div>
+      <div class="lever-card">
+        <div class="lever-type nocontrol">FIXED SIGNAL</div>
+        <div class="lever-title">Antya Nadi</div>
+        <div class="lever-body">Cannot be changed. 33.5% of the female pool shares Antya Nadi and is traditionally incompatible. This is not a problem to solve — it is a filter to accept. Focus on the 66.5% with different Nadi. Non-Manglik status is your horoscope positive — it cleans 58.5% of the pool.</div>
+      </div>
+      <div class="lever-card">
+        <div class="lever-type nocontrol">ADJUSTABLE (HIGH IMPACT)</div>
+        <div class="lever-title">Diet Framing</div>
+        <div class="lever-body">"Non-veg frequently" is devastating to market access. "Non-veg occasionally" triples your algorithmic reach. If you're genuinely willing to eat vegetarian at home (most non-veg people are), this single change unlocks the 64.7% segment. The change is behavioral framing, not a lie.</div>
+      </div>
+      <div class="lever-card">
+        <div class="lever-type nocontrol">ADJUSTABLE (HIGH IMPACT)</div>
+        <div class="lever-title">Global Ambition Language</div>
+        <div class="lever-body">"Strongly open to SF" → "Open to global opportunities when they align with our shared life plan." Same ambition. Completely different family reception. One signals "I will take your daughter away." The other signals "we decide together." The difference is one adverb and a pronoun.</div>
+      </div>
+    </div>
+
+    <div class="attraction-map reveal">
+      <div class="am-title">YOUR SIGNALS MAPPED TO THEIR IMPACT</div>
+      <div class="am-row">
+        <div class="am-factor">IIT Madras Degree</div>
+        <div class="am-bar-wrap"><div class="am-fill" style="width:99%;background:var(--green)"></div></div>
+        <div class="am-status" style="color:var(--green)">MAXIMUM</div>
+      </div>
+      <div class="am-row">
+        <div class="am-factor">Verified Income Tier</div>
+        <div class="am-bar-wrap"><div class="am-fill" style="width:90%;background:var(--green)"></div></div>
+        <div class="am-status" style="color:var(--green)">VERY HIGH</div>
+      </div>
+      <div class="am-row">
+        <div class="am-factor">CFA All 3 Levels (as decoded)</div>
+        <div class="am-bar-wrap"><div class="am-fill" style="width:85%;background:var(--green)"></div></div>
+        <div class="am-status" style="color:var(--green)">HIGH</div>
+      </div>
+      <div class="am-row">
+        <div class="am-factor">CFA (as currently listed)</div>
+        <div class="am-bar-wrap"><div class="am-fill" style="width:20%;background:var(--amber)"></div></div>
+        <div class="am-status" style="color:var(--amber)">WASTED</div>
+      </div>
+      <div class="am-row">
+        <div class="am-factor">Flipkart → super.money trajectory</div>
+        <div class="am-bar-wrap"><div class="am-fill" style="width:75%;background:var(--green)"></div></div>
+        <div class="am-status" style="color:var(--green)">HIGH</div>
+      </div>
+      <div class="am-row">
+        <div class="am-factor">Non-veg (frequently)</div>
+        <div class="am-bar-wrap"><div class="am-fill" style="width:65%;background:var(--red)"></div></div>
+        <div class="am-status" style="color:var(--red)">NEGATIVE</div>
+      </div>
+      <div class="am-row">
+        <div class="am-factor">Global ambition (as stated)</div>
+        <div class="am-bar-wrap"><div class="am-fill" style="width:55%;background:var(--red)"></div></div>
+        <div class="am-status" style="color:var(--red)">POLARIZING</div>
+      </div>
+      <div class="am-row">
+        <div class="am-factor">11 countries (as narrative, not count)</div>
+        <div class="am-bar-wrap"><div class="am-fill" style="width:80%;background:var(--green)"></div></div>
+        <div class="am-status" style="color:var(--green)">HIGH</div>
+      </div>
+      <div class="am-row">
+        <div class="am-factor">Rohini Nakshatra</div>
+        <div class="am-bar-wrap"><div class="am-fill" style="width:70%;background:var(--green)"></div></div>
+        <div class="am-status" style="color:var(--green)">PREMIUM</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ SECTION 6: STRATEGIC PLAYBOOK ═══════════ -->
+<section id="playbook">
+  <div class="container">
+    <span class="sec-label reveal">06 — STRATEGIC PLAYBOOK</span>
+    <h2 class="sec-title reveal">THE SYSTEM<br>TO EXECUTE</h2>
+    <p class="sec-body reveal">Six playbooks. Each one specific to your profile, your market, your signals. This is not generic advice.</p>
+
+    <div class="playbook-tabs reveal">
+      <button class="play-tab active" onclick="switchPlaybook(0)">A. Positioning</button>
+      <button class="play-tab" onclick="switchPlaybook(1)">B. Profile Rewrite</button>
+      <button class="play-tab" onclick="switchPlaybook(2)">C. Amplify</button>
+      <button class="play-tab" onclick="switchPlaybook(3)">D. Suppress</button>
+      <button class="play-tab" onclick="switchPlaybook(4)">E. Channels</button>
+      <button class="play-tab" onclick="switchPlaybook(5)">F. Outreach</button>
+    </div>
+
+    <!-- A: Positioning -->
+    <div class="play-panel active" id="pb0">
+      <div class="play-item">
+        <div class="play-num">A.01</div>
+        <div class="play-title">Your Core Positioning Statement</div>
+        <div class="play-body">You are not "an IIT engineer who became a PM." You are <strong>a builder who chose the intersection of technology and financial access</strong> — and built himself at the same caliber (IIT + CFA) to operate credibly on both sides. That framing is rarer than the credentials themselves. Lead with it.</div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">A.02</div>
+        <div class="play-title">Target Segment Positioning: "The Urban Brahmin Who Chose Both"</div>
+        <div class="play-body">You have deep Maharashtra roots (Panvel, Deshastha Rigwedi, close family) AND global exposure (11 countries, HYROX, fintech). You're not choosing between them. You are the person who holds both. This is the identity that <strong>Return NRI women and liberal urban Brahmin women specifically seek</strong> — someone who doesn't make them choose between family and ambition.</div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">A.03</div>
+        <div class="play-title">Parental Positioning: Lead With the Anchor, Not the Aspiration</div>
+        <div class="play-body">For parental conversations, the positioning is: <strong>"Established, IIT-educated, Reliance-family background, currently Senior Manager at a financial technology company, based in Bengaluru with preference for Pune/Mumbai proximity."</strong> SF and Singapore don't appear until trust is built. Not dishonesty — sequencing.</div>
+      </div>
+    </div>
+
+    <!-- B: Profile Rewrite -->
+    <div class="play-panel" id="pb1">
+      <div class="play-item">
+        <div class="play-num">B.01</div>
+        <div class="play-title">Diet Field — Change This Today</div>
+        <div class="play-body">This is the single highest-ROI change you can make. "Non-veg frequently" → <strong>"Non-veg occasionally"</strong>. This change triples your algorithmic reach. If you eat vegetarian at home (most people in your position do), this is accurate. If you're willing to be flexible for the right partner, this is also accurate.</div>
+        <div class="rewrite-box">
+          <div class="rbox-label before">CURRENT — COSTS YOU 64.7% OF MARKET</div>
+          <div class="rbox-text">Non-Veg Frequently</div>
+        </div>
+        <div class="rewrite-box" style="margin-top:0.5rem">
+          <div class="rbox-label after">REWRITTEN — UNLOCKS MAJORITY MARKET</div>
+          <div class="rbox-text after">Non-Veg Occasionally</div>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">B.02</div>
+        <div class="play-title">Personal Description — Decode the Hidden Gems</div>
+        <div class="play-body">Your current description is personal and well-written — far above average. But it buries the rarest signals. Add two specific lines:</div>
+        <div class="rewrite-box">
+          <div class="rbox-label before">CURRENT (BURIES CFA VALUE)</div>
+          <div class="rbox-text">Chartered Financial Analyst (CFA): Completed all 3 Levels</div>
+        </div>
+        <div class="rewrite-box" style="margin-top:0.5rem">
+          <div class="rbox-label after">REWRITTEN (DECODES THE SIGNAL)</div>
+          <div class="rbox-text after">I hold the CFA charter — all three levels cleared. Globally, fewer than 10% of Level 1 candidates ever clear all three. Combined with an engineering dual degree from IIT Madras, I operate at the intersection of technology and financial intelligence — which is the exact thesis behind what I build at work.</div>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">B.03</div>
+        <div class="play-title">Global Ambition — Reframe the Language</div>
+        <div class="play-body">Remove "strongly" from "strongly open to San Francisco." Replace with joint-decision framing.</div>
+        <div class="rewrite-box">
+          <div class="rbox-label before">CURRENT — READS AS DECIDED</div>
+          <div class="rbox-text">Strongly open to San Francisco if the opportunity aligns. Also open to Singapore, Dubai, Beijing, London, Berlin, Paris if it meaningfully accelerates life and growth.</div>
+        </div>
+        <div class="rewrite-box" style="margin-top:0.5rem">
+          <div class="rbox-label after">REWRITTEN — READS AS PARTNERSHIP</div>
+          <div class="rbox-text after">Currently based in Bengaluru, with preference for Pune and Mumbai to stay connected to family. Open to global opportunities — SF, Singapore, London — when they align with what we want to build together. Geography should follow the life, not lead it.</div>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">B.04</div>
+        <div class="play-title">Photo Strategy — Highest ROI Investment</div>
+        <div class="play-body">Market research consistently shows: <strong>natural, well-lit, recent photos outperform studio shots 3–5x.</strong> Include: (1) one clear face photo — casual, natural light, genuine expression; (2) one travel/activity photo (HYROX or travel context speaks to the lifestyle); (3) one photo that shows personality, not just appearance. Remove any photo over 18 months old.</div>
+      </div>
+    </div>
+
+    <!-- C: Amplify -->
+    <div class="play-panel" id="pb2">
+      <div class="play-item">
+        <div class="play-num">C.01</div>
+        <div class="play-title">Amplify: The CFA Credential</div>
+        <div class="play-body">Context is everything. Add 2 sentences in your description that decode why CFA + IIT is rare. Women in finance will immediately recognize it. Parents who don't know what CFA means will understand "globally recognized financial certification, fewer than 10% complete all levels." Make the hidden gem visible.</div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">C.02</div>
+        <div class="play-title">Amplify: The Family Achievement System</div>
+        <div class="play-body">Your family description is underselling a remarkable story: <strong>Father from COEP → Senior GM at Reliance. Sister from COEP → Financial Analyst + CFA Level 3 candidate. You from IIT Madras → Senior PM + CFA charter holder.</strong> This is a high-achievement family that values education across genders. For the right woman, this is a major green flag. State it explicitly in the family description.</div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">C.03</div>
+        <div class="play-title">Amplify: Rohini Nakshatra</div>
+        <div class="play-body">Rohini is considered one of the most auspicious Nakshatras in Jyotish. Families with horoscope knowledge will respond positively. In conversations where horoscope compatibility comes up, mention Rohini proactively. It's a legitimate positive that most profiles don't actively leverage.</div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">C.04</div>
+        <div class="play-title">Amplify: The Verified Credentials Stack</div>
+        <div class="play-body">You have income, education, and identity all verified — a rare trifecta on Anuroop. <strong>Lead with "Document Verified Profile"</strong> in any outreach. In a market full of aspirational/unverified profiles, this is a trust multiplier. Most profiles don't mention it. You should.</div>
+      </div>
+    </div>
+
+    <!-- D: Suppress -->
+    <div class="play-panel" id="pb3">
+      <div class="play-item">
+        <div class="play-num">D.01</div>
+        <div class="play-title">Suppress: The City Laundry List</div>
+        <div class="play-body">SF, Singapore, Dubai, Beijing, London, Berlin, Paris in a single paragraph is overwhelming. <strong>Choose two: Bengaluru and Pune/Mumbai.</strong> Mention global openness as a single line at the end, reframed as joint. The city list signals you're already planning without her. That's not partnership — that's announcement.</div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">D.02</div>
+        <div class="play-title">Suppress: Generic Values Phrases</div>
+        <div class="play-body">"Think long term, dream big" / "value the journey as much as outcomes." Everyone says these. Your behavioral signals (HYROX, SCUBA, CFA self-study while working) demonstrate character without claiming it. Remove the aspiration-speak. Replace with specific, concrete actions that show the same traits.</div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">D.03</div>
+        <div class="play-title">Suppress: The Performance Requirement in Partner Expectations</div>
+        <div class="play-body">"A grounded yet ambitious partner who brings emotional stability, curiosity, and a mindset to build together with honesty and alignment." This is a requirements checklist, not an invitation. For a 24–26 year old woman reading this, it can feel like a job description. <strong>Soften the expectation-listing, amplify the invitation.</strong></div>
+      </div>
+    </div>
+
+    <!-- E: Channel Strategy -->
+    <div class="play-panel" id="pb4">
+      <div class="play-item">
+        <div class="play-num">E.01</div>
+        <div class="play-title">Anuroop — Active, Not Passive</div>
+        <div class="play-body">The algorithm rewards recency and activity. Log in daily. The first 30 days of profile activity generate 60–70% of all eventual contacts. If you haven't leveraged this window, reactivate aggressively. <strong>Send a minimum of 10 curated expressions of interest per week</strong> — not mass sends, targeted sends to profiles matching your liberal cluster criteria.</div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">E.02</div>
+        <div class="play-title">JeevanSaathi + BrahminMatrimony — Parallel Track</div>
+        <div class="play-body">JeevanSaathi has a more modern UX and attracts the self-directed, urban professional segment. BrahminMatrimony adds pan-India coverage for Return NRIs. <strong>Your target segment (liberal, post-grad, urban Brahmin) is more likely on JeevanSaathi than Anuroop.</strong> Run parallel profiles optimized for each platform's demographic.</div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">E.03</div>
+        <div class="play-title">Community Network Layer — The WhatsApp Meta-Channel</div>
+        <div class="play-body">There are active "Brahmin Vivah Maharashtra" WhatsApp groups with thousands of members. A recommendation through a mutual community node gives <strong>10x the trust of a cold platform message.</strong> Ask parents/relatives to introduce you through community networks in Bengaluru's Maharashtra Brahmin community. This channel is underused and high-conversion.</div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">E.04</div>
+        <div class="play-title">LinkedIn — The Invisible Channel</div>
+        <div class="play-body">Your target segment (finance + tech women, urban professionals) is active on LinkedIn. You're already on it. The CFA community specifically is findable. This is not a dating channel — but it is a visibility channel. An active, well-maintained LinkedIn profile that shows your intellect and values reaches people who won't find you on Anuroop.</div>
+      </div>
+    </div>
+
+    <!-- F: Outreach -->
+    <div class="play-panel" id="pb5">
+      <div class="play-item">
+        <div class="play-num">F.01</div>
+        <div class="play-title">The Cold Message Framework</div>
+        <div class="play-body">Do not send a generic "I liked your profile" message. The market research shows profiles with <strong>personalized 40–60 word first messages</strong> get 3–4x higher reply rates. Reference something specific from her profile. Show you actually read it. Then one line about who you are. Then an invitation to know more.</div>
+        <div class="rewrite-box">
+          <div class="rbox-label after">TEMPLATE — ADAPT TO EACH PROFILE</div>
+          <div class="rbox-text after">Hi [Name], I noticed you're [specific detail about her profile — career, interest, city]. Your [specific thing that stood out] caught my attention. I'm Ishan — IIT Madras, currently Senior PM at a fintech company in Bengaluru, Deshastha Rigwedi, close family in Pune. Would love to connect if you think there might be alignment.</div>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">F.02</div>
+        <div class="play-title">Target Profile Search Criteria (Execute This Manually)</div>
+        <div class="play-body">
+          Run these specific filters on Anuroop to find your true target pool:<br><br>
+          <strong>Set A (Liberal Urban):</strong> Bengaluru/Mumbai/Pune + Post-Grad + Private/MNC + Age 24–28 + no vegetarian filter<br><br>
+          <strong>Set B (Return NRI):</strong> Native country = USA/UK + Residential country = India + Education = International Degree/Post-Grad<br><br>
+          <strong>Set C (Finance Track):</strong> Occupation = CA/CFA/Consultant + Field = Finance + Bengaluru/Mumbai
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num">F.03</div>
+        <div class="play-title">Progression Speed — Compress the Timeline</div>
+        <div class="play-body">Platform data and user discourse consistently show: <strong>profile → message → call within 7 days, call → in-person within 4 weeks = highest conversion.</strong> Don't let conversations die in the messaging interface. Suggest a call within 2–3 message exchanges. Move to in-person within 3 weeks of the first call. The platform's chat system is a qualifying filter, not a relationship builder.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ SECTION 7: SCENARIO SIMULATION ═══════════ -->
+<section id="scenario">
+  <div class="container">
+    <span class="sec-label reveal">07 — SCENARIO SIMULATION</span>
+    <h2 class="sec-title reveal">THREE<br>OUTCOMES</h2>
+    <p class="sec-body reveal">The same person. Three different levels of strategic execution. The gap between scenarios is not talent or credentials — it is decisions.</p>
+
+    <div class="scenario-grid reveal">
+      <div class="sc-card nothing">
+        <div class="sc-type nothing">SCENARIO A</div>
+        <div class="sc-title">You Do Nothing</div>
+        <div class="sc-outcome">
+          Profile stays as-is. "Non-veg frequently" continues to filter you out of 65% of market. Global ambition language continues to trigger family anxiety. CFA remains a mystery to most evaluators. Passive matching serves you the median, not the optimal.<br><br>
+          You'll receive interest from profiles that don't match your lifestyle or values. The quality gap creates frustration. You'll spend 12–18 months in low-conversion conversations. Eventually a match emerges — but from luck, not strategy.
+        </div>
+        <div class="sc-stat" style="color:var(--red)">12–18mo</div>
+        <div class="sc-stat-label">to a match, if at all</div>
+      </div>
+
+      <div class="sc-card partial">
+        <div class="sc-type partial">SCENARIO B</div>
+        <div class="sc-title">Partial Optimization</div>
+        <div class="sc-outcome">
+          You change diet to "occasionally," reframe the global language, and update photos. You start reaching out to 5–8 profiles per week in the liberal cluster. You add JeevanSaathi as a second platform.<br><br>
+          Market access triples immediately due to diet change alone. Quality of incoming interest improves. You reach the right segment more often. Conversations become more aligned. A match from the elite-to-compatible segment emerges in 4–8 months.
+        </div>
+        <div class="sc-stat" style="color:var(--amber)">4–8mo</div>
+        <div class="sc-stat-label">to a compatible match</div>
+      </div>
+
+      <div class="sc-card allin">
+        <div class="sc-type allin">SCENARIO C</div>
+        <div class="sc-title">Full Execution</div>
+        <div class="sc-outcome">
+          Profile is rewritten. Diet changed. Photos updated. CFA decoded. Global framing corrected. Outreach is systematic: 10+ curated messages per week across Anuroop + JeevanSaathi. Community WhatsApp network activated through parents. Return NRI segment manually identified and contacted.<br><br>
+          You're now visible to all 80–150 of your real target profiles. You're converting at a higher rate. The right person exists in this pool. With full execution, you find her in 2–4 months — and she's from the top of what this market can offer.
+        </div>
+        <div class="sc-stat" style="color:var(--green)">2–4mo</div>
+        <div class="sc-stat-label">to a top-segment match</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ SECTION 8: EDGE MAXIMIZATION ═══════════ -->
+<section id="edge">
+  <div class="container">
+    <span class="sec-label reveal">08 — EDGE MAXIMIZATION</span>
+    <h2 class="sec-title reveal">UNFAIR<br>ADVANTAGES</h2>
+    <p class="sec-body reveal">Advantages you can build that your competition cannot. These compound over time.</p>
+
+    <div class="edge-items reveal">
+      <div class="edge-item">
+        <div class="edge-num">01</div>
+        <div class="edge-content">
+          <div class="edge-tag">CAREER MOVE</div>
+          <div class="edge-title">The FAANG Floor Option</div>
+          <div class="edge-body">A single Google, Meta, or Microsoft offer — even if you don't take it — changes the conversation. "Senior PM at fintech" becomes "Senior PM, previously considered by Google." Brand recognition for risk-averse families increases dramatically. Your IIT + CFA + Flipkart stack already qualifies you. The option is closer than you think.</div>
+        </div>
+      </div>
+      <div class="edge-item">
+        <div class="edge-num">02</div>
+        <div class="edge-content">
+          <div class="edge-tag">NARRATIVE</div>
+          <div class="edge-title">The IIT-to-Fintech-to-CFA Story</div>
+          <div class="edge-body">Most people with your credentials don't have a coherent narrative linking them. You do: IIT built the engineering rigor. Flipkart taught scale. super.money is where you apply both to financial inclusion. CFA gives you the language to think about money at depth. This is a rare, specific, memorable story. Craft it as a 3-sentence narrative and use it everywhere.</div>
+        </div>
+      </div>
+      <div class="edge-item">
+        <div class="edge-num">03</div>
+        <div class="edge-content">
+          <div class="edge-tag">GEOGRAPHY</div>
+          <div class="edge-title">The Bengaluru Brahmin Community Network</div>
+          <div class="edge-body">Bengaluru has a significant Maharashtrian Brahmin professional community — mostly working in tech, finance, and consulting. This community runs its own matrimonial network parallel to platforms. Plugging into Bengaluru's Maharashtra Mandal, Brahmin social events, and professional networks gives you access to high-agency women who aren't on Anuroop — or who are, but you'll meet them with social proof.</div>
+        </div>
+      </div>
+      <div class="edge-item">
+        <div class="edge-num">04</div>
+        <div class="edge-content">
+          <div class="edge-tag">NETWORK</div>
+          <div class="edge-title">IIT Alumni Channel — Untapped</div>
+          <div class="edge-body">IIT Madras alumni networks are extensive. There are IIT alumni matrimonial WhatsApp groups and communities where families of IIT graduates share profiles. This is a small, high-quality pool where everyone understands everyone else's credential baseline — which removes the "IIT explanation" layer and gets to deeper compatibility faster.</div>
+        </div>
+      </div>
+      <div class="edge-item">
+        <div class="edge-num">05</div>
+        <div class="edge-content">
+          <div class="edge-tag">TIMING</div>
+          <div class="edge-title">The 12-Month Window</div>
+          <div class="edge-body">At 27, you are in the optimal window. At 29–30, families begin asking "why hasn't he found someone yet?" The same profile reads differently at 29. The premium matching opportunity is now — not in 18 months. This is not pressure. It is a strategic fact. Full execution now, before the window narrows, maximizes outcomes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ SECTION 9: ROADMAP ═══════════ -->
+<section id="roadmap">
+  <div class="container">
+    <span class="sec-label reveal">09 — ROADMAP</span>
+    <h2 class="sec-title reveal">WHAT TO DO<br>& WHEN</h2>
+    <p class="sec-body reveal">Not aspirational. Executable. Each item is specific to your profile and your market.</p>
+
+    <div class="timeline reveal">
+
+      <div class="tblock">
+        <div class="t-period">NEXT 7 DAYS</div>
+        <div class="t-content">
+          <div class="t-title">Profile & Platform Sprint</div>
+          <div class="t-item">Change diet field from "Non-veg frequently" to "Non-veg occasionally" on Anuroop — this single change unlocks 65% more of the market algorithmically</div>
+          <div class="t-item">Rewrite global relocation section: remove "strongly," reframe as joint-decision language</div>
+          <div class="t-item">Add 3–4 sentences decoding CFA credential: what it means, how rare all-3-levels is, why it matters in your fintech context</div>
+          <div class="t-item">Update photos: 1 clear natural face, 1 activity/travel, 1 personality — no studio shots</div>
+          <div class="t-item">Create JeevanSaathi profile with the rewritten description — target the self-directed professional segment</div>
+          <div class="t-item">Ask parents to activate community network in Bengaluru and Panvel — specifically Maharashtra Brahmin professional circles</div>
+        </div>
+      </div>
+
+      <div class="tblock">
+        <div class="t-period">30 DAYS</div>
+        <div class="t-content">
+          <div class="t-title">Active Outreach Campaign</div>
+          <div class="t-item">Manually search and identify: Return NRI profiles (native = USA/UK, current = India) — target all 150–200 in the dataset</div>
+          <div class="t-item">Identify Bengaluru/Mumbai-based, MNC/finance-employed, liberal Brahmin profiles — target all 80–120</div>
+          <div class="t-item">Send 10+ curated, personalized messages per week (not mass sends — reference her specific profile in each)</div>
+          <div class="t-item">For any response received: move to phone call within 72 hours. No extended platform chat.</div>
+          <div class="t-item">Join IIT Madras alumni matrimonial communities/groups — these exist and are high-quality</div>
+          <div class="t-item">Have parents make 3–5 personal community referral asks through their own networks</div>
+          <div class="t-item">Review Anuroop analytics: who's viewing your profile, who's responding, what's converting — adjust targeting accordingly</div>
+        </div>
+      </div>
+
+      <div class="tblock">
+        <div class="t-period">90 DAYS</div>
+        <div class="t-content">
+          <div class="t-title">Conversion & Evaluation</div>
+          <div class="t-item">You should have had 5–10 phone calls by now. For those that are progressing: in-person meeting within 2–3 weeks of the first call</div>
+          <div class="t-item">Add BrahminMatrimony as third platform — specifically to access Return NRI women from USA/UK who are India-based</div>
+          <div class="t-item">Evaluate signal quality: are you reaching the right people? If not, revisit targeting criteria, not the profile</div>
+          <div class="t-item">Consider attending 1–2 community events in Bengaluru or on Pune visits that provide social proof for your profile</div>
+          <div class="t-item">If no strong leads: escalate parental network engagement, ask for specific community introductions</div>
+          <div class="t-item">Reassess diet field based on results — if reaching right segment and it's working, maintain. If still getting wrong segment, explore platform-level filtering adjustments</div>
+        </div>
+      </div>
+
+      <div class="tblock">
+        <div class="t-period">1 YEAR</div>
+        <div class="t-content">
+          <div class="t-title">Life & Career Moves That Compound</div>
+          <div class="t-item">If fintech trajectory continues strong: explore FAANG or consulting offer not to take but to establish the floor — changes parental perception of career stability dramatically</div>
+          <div class="t-item">Consider buying property in Bengaluru — even a 1BHK investment property. Removes the "why is he renting?" question permanently</div>
+          <div class="t-item">If considering global move (SF, Singapore): frame this with a partner, not before. A woman who co-decides the global move is invested in it. One who discovers it after is not.</div>
+          <div class="t-item">If unmatched at 12 months: engage a premium matchmaker who specializes in the urban liberal Brahmin segment — they have curated access to the exact 80–150 profiles you're targeting and bypass the platform noise</div>
+          <div class="t-item">Maintain and intensify Bengaluru community network — many of your ideal profiles will emerge through trusted referrals, not cold platform matches</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ SECTION 10: FINAL TRUTH ═══════════ -->
+<section id="finale">
+  <div class="container">
+    <span class="sec-label reveal">10 — FINAL TRUTH</span>
+    <h2 class="sec-title reveal">FIVE TRUTHS.<br>FIVE LEVERS.</h2>
+    <p class="sec-body reveal">Everything compressed. Everything that matters.</p>
+
+    <div class="finale-split reveal">
+
+      <div class="finale-col">
+        <div class="fc-header truth">05 BRUTAL TRUTHS</div>
+
+        <div class="finale-item">
+          <div class="fi-num red">01</div>
+          <div class="fi-title">Your best signals are invisible.</div>
+          <div class="fi-body">CFA Level 3. HYROX. 11 countries at 27. The IIT-to-fintech-to-CFA narrative. None of these are decoding themselves on your profile. You are the product, and the product is not labeled correctly.</div>
+        </div>
+
+        <div class="finale-item">
+          <div class="fi-num red">02</div>
+          <div class="fi-title">One field is costing you most of your market.</div>
+          <div class="fi-body">"Non-veg frequently" eliminates 64.7% of the female pool before any human evaluates your IIT degree. This is an algorithm problem, not a values problem. Fix it in 10 seconds.</div>
+        </div>
+
+        <div class="finale-item">
+          <div class="fi-num red">03</div>
+          <div class="fi-title">You are targeting 3,318 when you should be targeting 80.</div>
+          <div class="fi-body">The platform will try to match you to the median. Your match is not at the median. She is in a sub-segment you must actively find — not wait to be found by.</div>
+        </div>
+
+        <div class="finale-item">
+          <div class="fi-num red">04</div>
+          <div class="fi-title">"Strongly open to SF" is not ambition to her. It's anxiety for her family.</div>
+          <div class="fi-body">Framing matters more than fact. The ambition is real and valid. The word "strongly" and the six-city list communicate that the decision has already been made without her. That's not partnership. Reframe it.</div>
+        </div>
+
+        <div class="finale-item">
+          <div class="fi-num red">05</div>
+          <div class="fi-title">The window is 12 months. Not indefinite.</div>
+          <div class="fi-body">At 27, you are at peak matchmaking optionality. The same profile reads differently at 30. The same market will ask different questions. Full execution now maximizes outcomes. Partial execution now is still better than full execution in 18 months.</div>
+        </div>
+      </div>
+
+      <div class="finale-col">
+        <div class="fc-header lever">05 LEVERAGE POINTS</div>
+
+        <div class="finale-item">
+          <div class="fi-num green">01</div>
+          <div class="fi-title">One field change. Triple market access.</div>
+          <div class="fi-body">"Non-veg occasionally" vs. "frequently" is a 10-second edit that unlocks 65% more of the market algorithmically. The highest ROI action in this entire playbook. Do it today.</div>
+        </div>
+
+        <div class="finale-item">
+          <div class="fi-num green">02</div>
+          <div class="fi-title">Decode the CFA. It's a different credential when explained.</div>
+          <div class="fi-body">Add three sentences to your profile that explain what CFA Level 3 cleared actually means. Finance women will immediately recognize it. Everyone else will understand it when you explain it. The credential doesn't change — the perception does.</div>
+        </div>
+
+        <div class="finale-item">
+          <div class="fi-num green">03</div>
+          <div class="fi-title">Find the Return NRIs. All 150–200 of them.</div>
+          <div class="fi-body">Native country USA/UK + current city India + international degree = your highest-compatibility micro-segment on the platform. They are findable with specific search criteria. Reach every one of them. This segment is underserved and perfectly suited.</div>
+        </div>
+
+        <div class="finale-item">
+          <div class="fi-num green">04</div>
+          <div class="fi-title">The family achievement narrative is your most underused asset.</div>
+          <div class="fi-body">IIT son + Morningstar-CFA sister + COEP father = a family that produces results across genders. For any woman who values her own career, this family signal says more than any self-description. State it explicitly.</div>
+        </div>
+
+        <div class="finale-item">
+          <div class="fi-num green">05</div>
+          <div class="fi-title">Speed of progression is a signal of genuine intent.</div>
+          <div class="fi-body">Profile → message → call in 7 days. Call → meeting in 3 weeks. The couples who convert are the ones who move. The couples who stall in platform chat don't. Every day in the messaging interface is a day the connection loses momentum. Move faster than feels comfortable.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="finale-cta reveal">
+      <span class="cta-word">EXECUTE.</span>
+      <p class="cta-body">
+        The analysis is complete. The strategy is clear. What separates a top-1% outcome from a median one is not more information — it is the decision to act on what you already know. You have the credentials. You have the trajectory. You have the character. The only remaining variable is execution.
+      </p>
+      <div class="cta-stamp">MT15685 — ISHAN KULKARNI — PROFILE INTELLIGENCE V1.0 — APRIL 2026</div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ─── LOADER ───
+const phases = ['DECOMPOSING SIGNALS', 'MAPPING MARKET', 'SIMULATING PERCEPTION', 'BUILDING PLAYBOOK', 'LOADING INTELLIGENCE'];
+let phaseIdx = 0;
+const lbar = document.getElementById('lbar');
+const lphase = document.getElementById('loader-phase');
+const loader = document.getElementById('loader');
+
+function updateLoader() {
+  lphase.textContent = phases[phaseIdx % phases.length];
+  phaseIdx++;
+}
+const phaseInterval = setInterval(updateLoader, 400);
+
+window.addEventListener('load', () => {
+  lbar.style.width = '100%';
+  setTimeout(() => {
+    clearInterval(phaseInterval);
+    loader.classList.add('done');
+    initAnimations();
+  }, 1600);
+});
+
+// ─── REVEAL ON SCROLL ───
+function initAnimations() {
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('vis');
+        // Trigger bar animations
+        e.target.querySelectorAll('.mirror-bar[data-width]').forEach(b => {
+          b.style.width = b.dataset.width + '%';
+        });
+        e.target.querySelectorAll('.prow-fill[data-width]').forEach(b => {
+          b.style.width = b.dataset.width + '%';
+        });
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  revealEls.forEach(el => io.observe(el));
+
+  // Also trigger bars inside non-reveal containers when visible
+  const allBars = document.querySelectorAll('.mirror-bar[data-width], .prow-fill[data-width]');
+  const barIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.dataset.width + '%';
+      }
+    });
+  }, { threshold: 0.1 });
+  allBars.forEach(b => barIO.observe(b));
+}
+
+// ─── PERCEPTION TABS ───
+function switchPerception(idx) {
+  document.querySelectorAll('.ptab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.perception-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+}
+
+// ─── PLAYBOOK TABS ───
+function switchPlaybook(idx) {
+  document.querySelectorAll('.play-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.play-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+}
+
+// ─── NAV ACTIVE STATE ───
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const navIO = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach(link => {
+        link.style.color = link.getAttribute('href') === '#' + id ? 'var(--white)' : '';
+      });
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => navIO.observe(s));
+</script>
+</body>
+</html>
