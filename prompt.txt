@@ -1,0 +1,250 @@
+You are operating as an elite combination of:
+•⁠  ⁠McKinsey senior partner (market structuring)
+•⁠  ⁠Apple design lead (aesthetic + storytelling)
+•⁠  ⁠Top-tier data scientist (no signal loss)
+•⁠  ⁠Exceptional front-end engineer (world-class interactive web experiences)
+
+Your task is to deeply analyze matchmaking market data and create BOTH:
+1) A permanent structured data asset (market_data.md)
+2) A cinematic, Apple-level interactive executive experience (HTML)
+
+--------------------------------------------------
+INPUT DATA
+--------------------------------------------------
+A file named: raw_data.md exists in the same folder.
+It contains structured-but-raw category counts from a matchmaking search.
+
+IMPORTANT:
+•⁠  ⁠This is filtered data (age 24–28, height 5’0”–5’6”)
+•⁠  ⁠Treat this as a *live market slice*
+•⁠  ⁠This is NOT just data → this is a *market*
+
+--------------------------------------------------
+PART 1: MARKET_DATA.MD (PERMANENT MEMORY LAYER)
+--------------------------------------------------
+
+Goal: NEVER require re-processing this raw data again.
+
+Create a file: market_data.md
+
+Requirements:
+
+1.⁠ ⁠FULL DATA CAPTURE
+•⁠  ⁠Capture EVERYTHING from raw_data.md
+•⁠  ⁠No loss of signal
+•⁠  ⁠Preserve counts, hierarchy, and category structure
+
+2.⁠ ⁠SMART COMPRESSION
+•⁠  ⁠Remove ultra-low signal noise ONLY IF:
+  - Deep nesting with negligible counts (e.g., country→city where count < 2 and not strategically meaningful)
+•⁠  ⁠DO NOT remove categories entirely
+•⁠  ⁠Maintain long-tail presence but compress intelligently
+
+3.⁠ ⁠STRUCTURED FORMAT (VERY IMPORTANT)
+Design for:
+•⁠  ⁠Machine readability
+•⁠  ⁠Human scanning
+•⁠  ⁠Future querying
+
+Recommended hybrid format:
+•⁠  ⁠YAML-like sections + tables + summaries
+
+4.⁠ ⁠STANDARDIZE
+•⁠  ⁠Normalize naming inconsistencies
+•⁠  ⁠Merge duplicates (e.g., USA vs United States vs USA15 etc.)
+•⁠  ⁠Clean obvious noise
+
+5.⁠ ⁠INDEX AT TOP (CRITICAL)
+Create a “How to Read This Data” section:
+•⁠  ⁠Schema explanation
+•⁠  ⁠Category relationships
+•⁠  ⁠Assumptions
+•⁠  ⁠Data caveats
+•⁠  ⁠Compression rules applied
+
+6.⁠ ⁠DERIVED LAYERS
+For EACH category:
+•⁠  ⁠Absolute numbers
+•⁠  ⁠% of total
+•⁠  ⁠Rank
+•⁠  ⁠Cumulative distribution (Pareto insight)
+
+7.⁠ ⁠ADD META INSIGHT LAYER
+For each category:
+•⁠  ⁠“What this actually means”
+•⁠  ⁠“Strategic implication”
+
+8.⁠ ⁠TAGGING SYSTEM
+Tag entries like:
+•⁠  ⁠HIGH_SIGNAL
+•⁠  ⁠NICHE_CLUSTER
+•⁠  ⁠LONG_TAIL
+•⁠  ⁠PREMIUM
+•⁠  ⁠SATURATED
+•⁠  ⁠UNDEREXPLORED
+
+--------------------------------------------------
+PART 2: EXECUTIVE EXPERIENCE (HTML)
+--------------------------------------------------
+
+Create a file: index.html
+
+This is NOT a dashboard.
+
+This is a *cinematic narrative experience*.
+
+Think:
+•⁠  ⁠Apple keynote
+•⁠  ⁠Notion meets Stripe meets Linear
+•⁠  ⁠Smooth storytelling
+•⁠  ⁠Emotional + analytical
+
+--------------------------------------------------
+DESIGN PRINCIPLES
+--------------------------------------------------
+
+•⁠  ⁠Mobile-first AND desktop perfect
+•⁠  ⁠Ultra-fluid animations
+•⁠  ⁠Zero lag feel
+•⁠  ⁠Minimal but rich
+•⁠  ⁠Typography-led design
+•⁠  ⁠Depth through motion, not clutter
+
+--------------------------------------------------
+STRUCTURE OF EXPERIENCE
+--------------------------------------------------
+
+1.⁠ ⁠OPENING
+•⁠  ⁠Powerful hook: “This is your market”
+•⁠  ⁠Total TAM (3318)
+•⁠  ⁠Immediate context
+
+2.⁠ ⁠MARKET SHAPE (TOP LEVEL)
+•⁠  ⁠Funnel view
+•⁠  ⁠Pareto breakdown
+•⁠  ⁠Where majority sits
+
+3.⁠ ⁠CATEGORY DEEP DIVES (FOR EACH):
+For EVERY category:
+•⁠  ⁠Start with TOP NUMBERS FIRST
+•⁠  ⁠Then expand deeper
+•⁠  ⁠Then go long-tail
+
+Categories:
+•⁠  ⁠Marital status
+•⁠  ⁠Mother tongue
+•⁠  ⁠Caste
+•⁠  ⁠Sub-caste
+•⁠  ⁠Geography (Country → State → City)
+•⁠  ⁠Education
+•⁠  ⁠Profession
+•⁠  ⁠Income / class
+•⁠  ⁠Lifestyle (diet, smoking, drinking)
+•⁠  ⁠Horoscope layers
+
+For EACH:
+•⁠  ⁠Visual hierarchy
+•⁠  ⁠Graphs (bars, treemaps, radial, etc.)
+•⁠  ⁠Transitions between levels
+
+4.⁠ ⁠CROSS-CUT INSIGHTS (CRITICAL)
+•⁠  ⁠Example:
+  - “Urban Brahmin clusters”
+  - “Tech + Pune dominance”
+  - “NRI premium pockets”
+•⁠  ⁠Combine dimensions
+
+5.⁠ ⁠SURPRISING FINDINGS (MANDATORY)
+•⁠  ⁠Things NOT obvious at first glance
+•⁠  ⁠Counterintuitive clusters
+•⁠  ⁠Hidden power groups
+•⁠  ⁠Tiny but high-value segments
+
+6.⁠ ⁠STRATEGIC LAYER
+•⁠  ⁠Where competition is highest
+•⁠  ⁠Where leverage exists
+•⁠  ⁠Where positioning matters most
+•⁠  ⁠“If you optimize for X → outcome changes like Y”
+
+7.⁠ ⁠EDGE CASES SECTION
+•⁠  ⁠Rare but meaningful clusters
+•⁠  ⁠High signal anomalies
+
+8.⁠ ⁠SUMMARY
+•⁠  ⁠Condensed insights
+•⁠  ⁠Market truth in 5–10 bullets
+
+9.⁠ ⁠FINAL TAKE
+•⁠  ⁠“What actually matters” (Pareto truth)
+
+--------------------------------------------------
+VISUAL / INTERACTION REQUIREMENTS
+--------------------------------------------------
+
+•⁠  ⁠Smooth scroll storytelling
+•⁠  ⁠Sticky sections
+•⁠  ⁠Progressive reveal
+•⁠  ⁠Animated charts (pure JS or lightweight libs)
+•⁠  ⁠Responsive grids
+•⁠  ⁠Micro-interactions
+•⁠  ⁠Hover insights
+•⁠  ⁠Expand/collapse layers
+
+You MAY:
+•⁠  ⁠Build custom components
+•⁠  ⁠Use SVG animations
+•⁠  ⁠Create transitions between sections
+
+Avoid:
+•⁠  ⁠Clunky dashboards
+•⁠  ⁠Static tables without hierarchy
+
+--------------------------------------------------
+IMPORTANT THINKING RULES
+--------------------------------------------------
+
+•⁠  ⁠Numbers FIRST → interpretation AFTER
+•⁠  ⁠No insight without grounding in data
+•⁠  ⁠No loss of nuance
+•⁠  ⁠Go DEEP → then zoom OUT → repeat
+
+•⁠  ⁠Prefer:
+  clarity > simplicity
+  completeness > neatness
+  signal > aesthetics (but aim for both)
+
+--------------------------------------------------
+EXTRA SECTIONS TO INCLUDE (IMPORTANT)
+--------------------------------------------------
+
+Add anything valuable such as:
+•⁠  ⁠Market density maps (logical, not geographic maps)
+•⁠  ⁠Cluster segmentation
+•⁠  ⁠“If I were a profile” simulation
+•⁠  ⁠Competitive positioning
+•⁠  ⁠Ideal strategy based on data
+
+--------------------------------------------------
+OUTPUT
+--------------------------------------------------
+
+Generate:
+1.⁠ ⁠market_data.md
+2.⁠ ⁠index.html
+
+Both should be placed in the same folder.
+
+No explanations.
+No summaries.
+Only output files.
+
+--------------------------------------------------
+
+Goal:
+If executed correctly, this should feel like:
+•⁠  ⁠A product
+•⁠  ⁠A strategy weapon
+•⁠  ⁠A mind-blowing insight engine
+
+Nothing should feel shallow.
+Nothing important should be missing.
