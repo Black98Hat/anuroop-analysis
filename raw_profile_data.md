@@ -3,7 +3,7 @@ MT15685
 Bengaluru (Bangalore) India (Work) &
 Panvel,Maharashtra,India (Family)
 IIT Madras, B.Tech, M.Tech Dual Degree ,
-₹55,24,980 Per Annum,
+₹XX,XX,XXX Per Annum,
 5.7 ft, 27 Years
 Deshastha Rigwedi, Brahmin
 Kundali Matching
@@ -50,8 +50,8 @@ Private Sector
 super.money, Flipkart
 Senior Product Manager
 Rupees
-4,60,415 Per Month
-55,24,980 Per Annum
+X,XX,XXX Per Month
+XX,XX,XXX Per Annum
 NA
 NA
 Bengaluru (Bangalore),Karnataka,India
